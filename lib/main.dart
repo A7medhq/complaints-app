@@ -1,4 +1,4 @@
-import 'package:complaints/views/home.dart';
+import 'package:complaints/views/auth.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,30 +15,30 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(useMaterial3: true),
       home: Scaffold(
           backgroundColor: Colors.grey.shade200,
-          drawer: Drawer(
-            child: Column(),
-          ),
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            actions: [
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: GestureDetector(
-                  onTap: () {},
-                  child: const Material(
-                    shape: CircleBorder(
-                        side: BorderSide(color: Colors.white, width: 3)),
-                    child: CircleAvatar(
-                      backgroundColor: Color(0xff3A98B9),
-                    ),
-                  ),
-                ),
-              )
-            ],
-            iconTheme: const IconThemeData(color: Colors.black),
-          ),
-          body: const HomeScreen()),
+          // drawer: Drawer(
+          //   child: Column(),
+          // ),
+          // appBar: AppBar(
+          //   backgroundColor: Colors.transparent,
+          //   elevation: 0,
+          //   actions: [
+          //     Padding(
+          //       padding: const EdgeInsets.all(12.0),
+          //       child: GestureDetector(
+          //         onTap: () {},
+          //         child: const Material(
+          //           shape: CircleBorder(
+          //               side: BorderSide(color: Colors.white, width: 3)),
+          //           child: CircleAvatar(
+          //             backgroundColor: Color(0xff3A98B9),
+          //           ),
+          //         ),
+          //       ),
+          //     )
+          //   ],
+          //   iconTheme: const IconThemeData(color: Colors.black),
+          // ),
+          body: const AuthScreen()),
     );
   }
 }
