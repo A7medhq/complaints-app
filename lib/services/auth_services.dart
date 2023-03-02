@@ -5,8 +5,11 @@ import 'package:complaints/models/user_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/response_model.dart';
+
 class AuthServices {
-  Future<dynamic> login({required String password, required String email}) async {
+  Future<ResponseModel> login(
+      {required String password, required String email}) async {
     final prefs = await SharedPreferences.getInstance();
 
     var url = Uri.parse("$base_url/login");
@@ -15,11 +18,10 @@ class AuthServices {
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(response.body);
       var userInfo = UserModel.fromJson(jsonResponse);
-      prefs.setString('user', jsonResponse);
-      return userInfo;
-    } else if (response.statusCode == 401) {
-      return false;
+      prefs.setString('user', response.body);
+      return ResponseModel(userModel: userInfo, message: 'success');
+    } else {
+      return ResponseModel(message: 'invalid');
     }
-    return false;
   }
 }
