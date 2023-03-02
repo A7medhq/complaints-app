@@ -13,6 +13,10 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   String switched = 'login';
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordConfirmationController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -78,13 +82,13 @@ class _AuthScreenState extends State<AuthScreen> {
                           ),
                           AuthTextField(
                               hint: 'Enter email or username',
-                              controller: TextEditingController()),
+                              controller: emailController),
                           const SizedBox(
                             height: 12,
                           ),
                           AuthTextField(
                               hint: 'Enter password',
-                              controller: TextEditingController()),
+                              controller: passwordController),
                           AnimatedCrossFade(
                             duration: const Duration(milliseconds: 400),
                             reverseDuration: const Duration(milliseconds: 200),
@@ -96,7 +100,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 ),
                                 AuthTextField(
                                     hint: 'Confirm password',
-                                    controller: TextEditingController()),
+                                    controller: passwordConfirmationController),
                               ],
                             ),
                             crossFadeState: switched == 'login'
