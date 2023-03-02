@@ -1,0 +1,161 @@
+import 'package:flutter/material.dart';
+
+import '../components/auth_textfield.dart';
+import '../components/background_curve.dart';
+import '../components/toggle_button.dart';
+
+class AuthScreen extends StatefulWidget {
+  const AuthScreen({Key? key}) : super(key: key);
+
+  @override
+  State<AuthScreen> createState() => _AuthScreenState();
+}
+
+class _AuthScreenState extends State<AuthScreen> {
+  String switched = 'login';
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          const BackgroundCurve(),
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 36),
+                    child: Text(
+                      'AH',
+                      style: TextStyle(fontSize: 80, color: Colors.white),
+                    ),
+                  ),
+                  Center(
+                      child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    height: switched == 'login' ? 470 : 520,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(36),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 10.0,
+                        ),
+                      ],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 36, horizontal: 24),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ToggleButton(
+                            width: 300.0,
+                            height: 45.0,
+                            toggleBackgroundColor: Colors.white,
+                            toggleBorderColor: (Colors.grey[350])!,
+                            toggleColor: const Color(0xff3A98B9),
+                            activeTextColor: Colors.white,
+                            inactiveTextColor: const Color(0xff3A98B9),
+                            leftDescription: 'Login',
+                            rightDescription: 'Register',
+                            onLeftToggleActive: () {
+                              setState(() {
+                                switched = 'login';
+                              });
+                            },
+                            onRightToggleActive: () {
+                              setState(() {
+                                switched = 'register';
+                              });
+                            },
+                          ),
+                          const SizedBox(
+                            height: 24,
+                          ),
+                          AuthTextField(
+                              hint: 'Enter email or username',
+                              controller: TextEditingController()),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          AuthTextField(
+                              hint: 'Enter password',
+                              controller: TextEditingController()),
+                          AnimatedCrossFade(
+                            duration: const Duration(milliseconds: 400),
+                            reverseDuration: const Duration(milliseconds: 200),
+                            firstChild: Container(),
+                            secondChild: Column(
+                              children: [
+                                const SizedBox(
+                                  height: 12,
+                                ),
+                                AuthTextField(
+                                    hint: 'Confirm password',
+                                    controller: TextEditingController()),
+                              ],
+                            ),
+                            crossFadeState: switched == 'login'
+                                ? CrossFadeState.showFirst
+                                : CrossFadeState.showSecond,
+                          ),
+                          const SizedBox(
+                            height: 36,
+                          ),
+                          Material(
+                            borderRadius: BorderRadius.circular(24),
+                            color: const Color(0xff3A98B9),
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(24),
+                              onTap: () {},
+                              child: SizedBox(
+                                width: 260,
+                                height: 50,
+                                child: Center(
+                                  child: Text(
+                                    switched,
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 24,
+                          ),
+                          const Text('OR'),
+                          const SizedBox(
+                            height: 24,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.add)),
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.add)),
+                              IconButton(
+                                  onPressed: () {}, icon: const Icon(Icons.add))
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  )),
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
