@@ -18,7 +18,13 @@ class AuthServices {
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(response.body);
       var userInfo = UserModel.fromJson(jsonResponse);
-      prefs.setString('user', response.body);
+
+      // save user token
+
+      if (userInfo.token != null) {
+        prefs.setString('token', 'Bearer ${userInfo.token}');
+      }
+
       return ResponseModel(userModel: userInfo, message: 'success');
     } else {
       return ResponseModel(message: 'invalid');
