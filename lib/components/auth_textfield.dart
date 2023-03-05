@@ -8,12 +8,7 @@ class AuthTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter the email and the password';
-        }
-      },
+    return TextField(
       controller: controller,
       decoration: InputDecoration(
           hintStyle: TextStyle(color: Colors.grey.shade400),

@@ -7,6 +7,8 @@ import '../models/response_model.dart';
 import '../services/auth_services.dart';
 
 class AuthScreen extends StatefulWidget {
+  static const id = '/authScreen';
+
   const AuthScreen({Key? key}) : super(key: key);
 
   @override
@@ -19,7 +21,6 @@ class _AuthScreenState extends State<AuthScreen> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordConfirmationController =
       TextEditingController();
-  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -56,128 +57,121 @@ class _AuthScreenState extends State<AuthScreen> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 36, horizontal: 24),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            ToggleButton(
-                              width: 300.0,
-                              height: 45.0,
-                              toggleBackgroundColor: Colors.white,
-                              toggleBorderColor: (Colors.grey[350])!,
-                              toggleColor: const Color(0xff3A98B9),
-                              activeTextColor: Colors.white,
-                              inactiveTextColor: const Color(0xff3A98B9),
-                              leftDescription: 'Login',
-                              rightDescription: 'Register',
-                              onLeftToggleActive: () {
-                                setState(() {
-                                  switched = 'login';
-                                });
-                              },
-                              onRightToggleActive: () {
-                                setState(() {
-                                  switched = 'register';
-                                });
-                              },
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ToggleButton(
+                            width: 300.0,
+                            height: 45.0,
+                            toggleBackgroundColor: Colors.white,
+                            toggleBorderColor: (Colors.grey[350])!,
+                            toggleColor: const Color(0xff3A98B9),
+                            activeTextColor: Colors.white,
+                            inactiveTextColor: const Color(0xff3A98B9),
+                            leftDescription: 'Login',
+                            rightDescription: 'Register',
+                            onLeftToggleActive: () {
+                              setState(() {
+                                switched = 'login';
+                              });
+                            },
+                            onRightToggleActive: () {
+                              setState(() {
+                                switched = 'register';
+                              });
+                            },
+                          ),
+                          const SizedBox(
+                            height: 24,
+                          ),
+                          AuthTextField(
+                              hint: 'Enter email or username',
+                              controller: emailController),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          AuthTextField(
+                              hint: 'Enter password',
+                              controller: passwordController),
+                          AnimatedCrossFade(
+                            duration: const Duration(milliseconds: 400),
+                            reverseDuration: const Duration(milliseconds: 200),
+                            firstChild: Container(),
+                            secondChild: Column(
+                              children: [
+                                const SizedBox(
+                                  height: 12,
+                                ),
+                                AuthTextField(
+                                    hint: 'Confirm password',
+                                    controller: passwordConfirmationController),
+                              ],
                             ),
-                            const SizedBox(
-                              height: 24,
-                            ),
-                            AuthTextField(
-                                hint: 'Enter email or username',
-                                controller: emailController),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            AuthTextField(
-                                hint: 'Enter password',
-                                controller: passwordController),
-                            AnimatedCrossFade(
-                              duration: const Duration(milliseconds: 400),
-                              reverseDuration:
-                                  const Duration(milliseconds: 200),
-                              firstChild: Container(),
-                              secondChild: Column(
-                                children: [
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  AuthTextField(
-                                      hint: 'Confirm password',
-                                      controller:
-                                          passwordConfirmationController),
-                                ],
-                              ),
-                              crossFadeState: switched == 'login'
-                                  ? CrossFadeState.showFirst
-                                  : CrossFadeState.showSecond,
-                            ),
-                            const SizedBox(
-                              height: 36,
-                            ),
-                            Material(
+                            crossFadeState: switched == 'login'
+                                ? CrossFadeState.showFirst
+                                : CrossFadeState.showSecond,
+                          ),
+                          const SizedBox(
+                            height: 36,
+                          ),
+                          Material(
+                            borderRadius: BorderRadius.circular(24),
+                            color: const Color(0xff3A98B9),
+                            child: InkWell(
                               borderRadius: BorderRadius.circular(24),
-                              color: const Color(0xff3A98B9),
-                              child: InkWell(
-                                borderRadius: BorderRadius.circular(24),
-                                onTap: () async {
-                                  if (_formKey.currentState!.validate()) {}
+                              onTap: () async {
+                                ResponseModel userInfo = await AuthServices()
+                                    .login(
+                                        password: passwordController.text,
+                                        email: emailController.text);
 
-                                  ResponseModel userInfo = await AuthServices()
-                                      .login(
-                                          password: passwordController.text,
-                                          email: emailController.text);
-
-                                  if (userInfo.userModel != null) {
-                                    print(userInfo.userModel!.token);
-                                  } else {
-                                    if (mounted) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(const SnackBar(
-                                              content:
-                                                  Text('Invalid credentials')));
-                                    }
+                                if (userInfo.userModel != null && mounted) {
+                                  Navigator.of(context).pushNamedAndRemoveUntil(
+                                      '/mainLayout', (_) => false);
+                                } else {
+                                  if (mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                            content:
+                                                Text('Invalid credentials')));
                                   }
-                                },
-                                child: SizedBox(
-                                  width: 260,
-                                  height: 50,
-                                  child: Center(
-                                    child: Text(
-                                      switched,
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                                }
+                              },
+                              child: SizedBox(
+                                width: 260,
+                                height: 50,
+                                child: Center(
+                                  child: Text(
+                                    switched,
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ),
                             ),
-                            const SizedBox(
-                              height: 24,
-                            ),
-                            const Text('OR'),
-                            const SizedBox(
-                              height: 24,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(Icons.add)),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(Icons.add)),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(Icons.add))
-                              ],
-                            )
-                          ],
-                        ),
+                          ),
+                          const SizedBox(
+                            height: 24,
+                          ),
+                          const Text('OR'),
+                          const SizedBox(
+                            height: 24,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.add)),
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.add)),
+                              IconButton(
+                                  onPressed: () {}, icon: const Icon(Icons.add))
+                            ],
+                          )
+                        ],
                       ),
                     ),
                   )),

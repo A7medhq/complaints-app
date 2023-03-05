@@ -55,7 +55,12 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
               child: ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) => widget.tilesList[index],
+                  itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        Navigator.of(context)
+                            .pushNamed('/messageDetailsScreen');
+                      },
+                      child: widget.tilesList[index]),
                   separatorBuilder: (context, index) => const Divider(
                         color: Colors.grey,
                       ),
