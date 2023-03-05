@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 import '../components/auth_textfield.dart';
 import '../components/background_curve.dart';
 import '../components/toggle_button.dart';
+import '../models/response_model.dart';
+import '../services/auth_services.dart';
 
 class AuthScreen extends StatefulWidget {
+  static const id = '/authScreen';
+
   const AuthScreen({Key? key}) : super(key: key);
 
   @override
@@ -115,7 +119,24 @@ class _AuthScreenState extends State<AuthScreen> {
                             color: const Color(0xff3A98B9),
                             child: InkWell(
                               borderRadius: BorderRadius.circular(24),
-                              onTap: () {},
+                              onTap: () async {
+                                ResponseModel userInfo = await AuthServices()
+                                    .login(
+                                        password: passwordController.text,
+                                        email: emailController.text);
+
+                                if (userInfo.userModel != null && mounted) {
+                                  Navigator.of(context).pushNamedAndRemoveUntil(
+                                      '/mainLayout', (_) => false);
+                                } else {
+                                  if (mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                            content:
+                                                Text('Invalid credentials')));
+                                  }
+                                }
+                              },
                               child: SizedBox(
                                 width: 260,
                                 height: 50,

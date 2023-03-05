@@ -1,4 +1,8 @@
 import 'package:complaints/views/auth.dart';
+import 'package:complaints/views/home.dart';
+import 'package:complaints/views/loading.dart';
+import 'package:complaints/views/main_layout.dart';
+import 'package:complaints/views/message_detailes.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,34 +15,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(useMaterial3: true),
-      home: Scaffold(
-          backgroundColor: Colors.grey.shade200,
-          // drawer: Drawer(
-          //   child: Column(),
-          // ),
-          // appBar: AppBar(
-          //   backgroundColor: Colors.transparent,
-          //   elevation: 0,
-          //   actions: [
-          //     Padding(
-          //       padding: const EdgeInsets.all(12.0),
-          //       child: GestureDetector(
-          //         onTap: () {},
-          //         child: const Material(
-          //           shape: CircleBorder(
-          //               side: BorderSide(color: Colors.white, width: 3)),
-          //           child: CircleAvatar(
-          //             backgroundColor: Color(0xff3A98B9),
-          //           ),
-          //         ),
-          //       ),
-          //     )
-          //   ],
-          //   iconTheme: const IconThemeData(color: Colors.black),
-          // ),
-          body: const AuthScreen()),
+      theme: ThemeData(
+          useMaterial3: true,
+          scaffoldBackgroundColor: const Color(0xfff7f6ff),
+          appBarTheme: const AppBarTheme(
+              elevation: 0, backgroundColor: Color(0xfff7f6ff))),
+      routes: {
+        LoadingScreen.id: (context) => const LoadingScreen(),
+        HomeScreen.id: (context) => const HomeScreen(),
+        AuthScreen.id: (context) => const AuthScreen(),
+        MainLayout.id: (context) => const MainLayout(),
+        MessageDetailsScreen.id: (context) => const MessageDetailsScreen(),
+      },
     );
   }
 }
