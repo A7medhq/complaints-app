@@ -127,7 +127,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
                                 if (userInfo.userModel != null && mounted) {
                                   Navigator.of(context).pushNamedAndRemoveUntil(
-                                      '/mainLayout', (_) => false);
+                                      '/', (_) => false);
                                 } else {
                                   if (mounted) {
                                     ScaffoldMessenger.of(context).showSnackBar(
