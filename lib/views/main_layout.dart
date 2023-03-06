@@ -1,5 +1,7 @@
-import 'package:complaints/views/auth.dart';
+import 'package:complaints/components/drawer/custom_drawer_header.dart';
+import 'package:complaints/services/auth_services.dart';
 import 'package:complaints/views/home.dart';
+import 'package:complaints/views/loading.dart';
 import 'package:flutter/material.dart';
 
 class MainLayout extends StatefulWidget {
@@ -17,20 +19,36 @@ class _MainLayoutState extends State<MainLayout> {
   @override
   Widget build(BuildContext context) {
     Widget? body;
-    String title = '';
 
     if (currentPage == DrawerSections.home) {
       body = const HomeScreen();
-      title = 'home';
-    } else if (currentPage == DrawerSections.auth) {
-      body = const AuthScreen();
-      title = 'auth';
     }
+
     return Scaffold(
         drawer: Drawer(
           child: SingleChildScrollView(
             child: Column(
-              children: [myDrawerList()],
+              children: [
+                const CustomHeaderDrawer(),
+                CustomDrawerList(
+                  children: [
+                    menuItem(
+                      id: 0,
+                      title: 'Home',
+                      icon: Icons.home_outlined,
+                      selected:
+                          currentPage == DrawerSections.home ? true : false,
+                    ),
+                    menuItem(
+                      id: -1,
+                      title: 'Logout',
+                      icon: Icons.logout_outlined,
+                      selected:
+                          currentPage == DrawerSections.logout ? true : false,
+                    ),
+                  ],
+                )
+              ],
             ),
           ),
         ),
@@ -55,36 +73,6 @@ class _MainLayoutState extends State<MainLayout> {
         body: body);
   }
 
-  Widget myDrawerList() {
-    return Container(
-      padding: const EdgeInsets.only(
-        top: 15,
-      ),
-      child: Column(
-        children: [
-          menuItem(
-            id: 0,
-            title: 'Dashboard',
-            icon: Icons.dashboard_rounded,
-            selected: currentPage == DrawerSections.home ? true : false,
-          ),
-          menuItem(
-            id: 1,
-            title: 'Check In/Out',
-            icon: Icons.dashboard_rounded,
-            selected: currentPage == DrawerSections.auth ? true : false,
-          ),
-          menuItem(
-            id: -1,
-            title: 'Logout',
-            icon: Icons.dashboard_rounded,
-            selected: currentPage == DrawerSections.logout ? true : false,
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget menuItem(
       {required IconData icon,
       required String title,
@@ -98,9 +86,16 @@ class _MainLayoutState extends State<MainLayout> {
           setState(() {
             if (id == 0) {
               currentPage = DrawerSections.home;
-            } else if (id == 1) {
-              currentPage = DrawerSections.auth;
-            } else if (id == -1) {}
+            } else if (id == -1) {
+              AuthServices().logout().then((value) {
+                if (value) {
+                  Navigator.pushReplacementNamed(context, LoadingScreen.id);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Unable to logout')));
+                }
+              });
+            }
           });
         },
         child: Padding(
@@ -127,4 +122,20 @@ class _MainLayoutState extends State<MainLayout> {
   }
 }
 
-enum DrawerSections { home, auth, logout }
+class CustomDrawerList extends StatelessWidget {
+  final List<Widget> children;
+
+  const CustomDrawerList({super.key, required this.children});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(top: 15),
+      child: Column(
+        children: children,
+      ),
+    );
+  }
+}
+
+enum DrawerSections { home, logout }
