@@ -1,3 +1,4 @@
+import 'package:complaints/constants.dart';
 import 'package:flutter/material.dart';
 
 class CustomHeaderDrawer extends StatefulWidget {
@@ -17,54 +18,27 @@ class _CustomHeaderDrawerState extends State<CustomHeaderDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    if (data != null) {
-      return Material(
-        color: Colors.red,
-        child: InkWell(
-          onTap: () {},
-          child: Container(
-            width: double.infinity,
-            height: 200,
-            padding: const EdgeInsets.only(top: 20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(bottom: 10),
-                  height: 70,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: NetworkImage(data['data']['image']),
-                      )),
+    return Material(
+      clipBehavior: Clip.hardEdge,
+      borderRadius: const BorderRadius.only(topRight: Radius.circular(16)),
+      color: kPrimaryColor,
+      child: InkWell(
+        borderRadius: const BorderRadius.only(topRight: Radius.circular(16)),
+        onTap: data != null ? () {} : null,
+        child: Container(
+          width: double.infinity,
+          height: 200,
+          padding: const EdgeInsets.only(top: 20),
+          child: data != null
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [],
+                )
+              : const Center(
+                  child: CircularProgressIndicator(),
                 ),
-                Text(
-                  data['data']['name'],
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20),
-                ),
-                Text(
-                  data['data']['notify_email'],
-                  style: TextStyle(
-                    color: Colors.grey.shade200,
-                    fontSize: 14,
-                  ),
-                ),
-              ],
-            ),
-          ),
         ),
-      );
-    } else {
-      return Material(
-          color: Colors.red,
-          child: Container(
-              width: double.infinity,
-              height: 200,
-              padding: const EdgeInsets.only(top: 20),
-              child: Center(child: CircularProgressIndicator())));
-    }
+      ),
+    );
   }
 }
