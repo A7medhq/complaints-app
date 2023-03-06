@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../components/auth_textfield.dart';
-import '../components/background_curve.dart';
 import '../components/toggle_button.dart';
+import '../constants.dart';
 import '../models/response_model.dart';
 import '../services/auth_services.dart';
 
@@ -17,8 +17,10 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   String switched = 'login';
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController emailController =
+      TextEditingController(text: 'o@o.com');
+  TextEditingController passwordController =
+      TextEditingController(text: '123456');
   TextEditingController passwordConfirmationController =
       TextEditingController();
 
@@ -26,8 +28,20 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
+        alignment: Alignment.center,
         children: [
-          const BackgroundCurve(),
+          Positioned(
+            top: -200,
+            child: Container(
+              width: 500,
+              height: 500,
+              decoration: BoxDecoration(
+                color: kPrimaryColor,
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          //  const BackgroundCurve(),
           Padding(
             padding: const EdgeInsets.all(24.0),
             child: SingleChildScrollView(
