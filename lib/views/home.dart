@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../components/category_card.dart';
 import '../components/custom_expansion_tile/custom_expansion_tile.dart';
-
 class HomeScreen extends StatefulWidget {
   static const id = '/homeScreen';
 
@@ -168,6 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       bottomNavigationBar: InkWell(
         onTap: () {
+
           showModalBottomSheet(
               clipBehavior: Clip.hardEdge,
               context: context,
