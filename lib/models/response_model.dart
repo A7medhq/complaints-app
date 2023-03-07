@@ -1,8 +1,6 @@
-import 'package:complaints/models/user_model.dart';
-
 class ResponseModel {
-  UserModel? userModel;
+  dynamic data;
   String? message;
 
-  ResponseModel({this.userModel, this.message});
+  ResponseModel({this.data, this.message});
 }

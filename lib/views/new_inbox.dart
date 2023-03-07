@@ -1,4 +1,5 @@
 import 'package:complaints/components/date_picker.dart';
+import 'package:complaints/services/create_message.dart';
 import 'package:complaints/views/category.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +13,19 @@ class NewInbox extends StatefulWidget {
 }
 
 class _NewInboxState extends State<NewInbox> {
+  TextEditingController subjectController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController senderIdController = TextEditingController();
+  TextEditingController archiveNumberController =
+      TextEditingController(text: '2022');
+  TextEditingController archiveDateController =
+      TextEditingController(text: DateTime.now().toString());
+  TextEditingController decisionController = TextEditingController();
+  TextEditingController statusIdController = TextEditingController(text: '1');
+  TextEditingController finalDecisionController = TextEditingController();
+  TextEditingController tagsController = TextEditingController();
+  TextEditingController activitiesController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +46,28 @@ class _NewInboxState extends State<NewInbox> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pop(context);
+              Mails()
+                  .createNewMail(
+                      subject: subjectController.text,
+                      description: descriptionController.text,
+                      senderId: senderIdController.text,
+                      archiveNumber: archiveNumberController.text,
+                      archiveDate: archiveDateController.text,
+                      decision: decisionController.text,
+                      statusId: statusIdController.text,
+                      finalDecision: finalDecisionController.text,
+                      tags: tagsController.text,
+                      activities: activitiesController.text)
+                  .then((value) {
+                if (value.message == 'success') {
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(const SnackBar(content: Text('Done')));
+                  print(value.data.mail.id);
+                } else {
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(const SnackBar(content: Text('Failed')));
+                }
+              });
             },
             child: const Center(
                 child: Text(
@@ -51,7 +86,7 @@ class _NewInboxState extends State<NewInbox> {
                   child: Column(
                 children: [
                   TextField(
-                    controller: TextEditingController(),
+                    controller: senderIdController,
                     decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.person_outline_rounded),
                       suffixIcon: const Icon(
@@ -82,14 +117,14 @@ class _NewInboxState extends State<NewInbox> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'Category',
                           style: TextStyle(fontSize: 18),
                         ),
                         Row(
                           children: [
-                            Text('other'),
-                            SizedBox(
+                            const Text('other'),
+                            const SizedBox(
                               width: 6,
                             ),
                             Icon(
@@ -107,7 +142,7 @@ class _NewInboxState extends State<NewInbox> {
                   child: Column(
                 children: [
                   TextField(
-                    controller: TextEditingController(),
+                    controller: subjectController,
                     decoration: InputDecoration(
                       hintStyle:
                           TextStyle(fontSize: 22, color: Colors.grey.shade400),
@@ -118,7 +153,7 @@ class _NewInboxState extends State<NewInbox> {
                   ),
                   const Divider(),
                   TextField(
-                    controller: TextEditingController(),
+                    controller: descriptionController,
                     decoration: InputDecoration(
                       hintStyle:
                           TextStyle(fontSize: 14, color: Colors.grey.shade400),
@@ -132,84 +167,90 @@ class _NewInboxState extends State<NewInbox> {
               RoundedContainer(
                   child: Column(
                 children: [
-                  CustomDatePicker(controller: TextEditingController()),
+                  CustomDatePicker(controller: archiveDateController),
                   const Divider(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Icon(Icons.folder_zip_outlined),
-                      SizedBox(
+                      const Icon(Icons.folder_zip_outlined),
+                      const SizedBox(
                         width: 20,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Archive Number'),
-                          Text('2022/1565'),
+                          const Text('Archive Number'),
+                          const Text('2022/1565'),
                         ],
                       )
                     ],
                   ),
                 ],
               )),
-              RoundedContainer(
-                  child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.tag,
-                        color: Colors.grey.shade600,
-                      ),
-                      const SizedBox(
-                        width: 12,
-                      ),
-                      const Text(
-                        'Tags',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ],
-                  ),
-                  Icon(
-                    Icons.keyboard_arrow_right,
-                    color: Colors.grey.shade600,
-                  ),
-                ],
-              )),
-              RoundedContainer(
-                  child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.new_label_outlined,
-                        color: Colors.grey.shade600,
-                      ),
-                      const SizedBox(
-                        width: 12,
-                      ),
-                      Chip(
-                        label: Text(
-                          'Pending',
-                          style: TextStyle(color: Colors.white),
+              GestureDetector(
+                onTap: () {},
+                child: RoundedContainer(
+                    child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.tag,
+                          color: Colors.grey.shade600,
                         ),
-                        backgroundColor: Colors.amber,
-                        side: BorderSide.none,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50)),
-                        padding:
-                            EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                      ),
-                    ],
-                  ),
-                  Icon(
-                    Icons.keyboard_arrow_right,
-                    color: Colors.grey.shade600,
-                  ),
-                ],
-              )),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        const Text(
+                          'Tags',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ],
+                    ),
+                    Icon(
+                      Icons.keyboard_arrow_right,
+                      color: Colors.grey.shade600,
+                    ),
+                  ],
+                )),
+              ),
+              GestureDetector(
+                onTap: () {},
+                child: RoundedContainer(
+                    child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.new_label_outlined,
+                          color: Colors.grey.shade600,
+                        ),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        Chip(
+                          label: const Text(
+                            'Pending',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          backgroundColor: Colors.amber,
+                          side: BorderSide.none,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50)),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 10),
+                        ),
+                      ],
+                    ),
+                    Icon(
+                      Icons.keyboard_arrow_right,
+                      color: Colors.grey.shade600,
+                    ),
+                  ],
+                )),
+              ),
               RoundedContainer(
                   child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -219,7 +260,7 @@ class _NewInboxState extends State<NewInbox> {
                     style: TextStyle(fontSize: 20),
                   ),
                   TextField(
-                    controller: TextEditingController(),
+                    controller: decisionController,
                     decoration: InputDecoration(
                       hintStyle:
                           TextStyle(fontSize: 14, color: Colors.grey.shade400),
