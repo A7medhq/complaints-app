@@ -1,4 +1,5 @@
 import 'package:complaints/components/custom_expansion_tile/tile_content.dart';
+import 'package:complaints/services/create_tags.dart';
 import 'package:complaints/views/new_inbox.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +16,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    createTags("wesam");
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
