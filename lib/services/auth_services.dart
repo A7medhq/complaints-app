@@ -26,7 +26,7 @@ class AuthServices {
         prefs.setString('token', 'Bearer ${userInfo.token}');
       }
 
-      return ResponseModel(userModel: userInfo, message: 'success');
+      return ResponseModel(data: userInfo, message: 'success');
     } else {
       return ResponseModel(message: 'invalid');
     }

@@ -139,7 +139,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                         password: passwordController.text,
                                         email: emailController.text);
 
-                                if (userInfo.userModel != null && mounted) {
+                                if (userInfo.data != null && mounted) {
                                   Navigator.of(context).pushNamedAndRemoveUntil(
                                       '/', (_) => false);
                                 } else {
