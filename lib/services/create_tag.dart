@@ -20,7 +20,7 @@ Future<bool> createTags(String name) async {
   if (response.statusCode == 200) {
     var jsonResponse = jsonDecode(response.body);
     var getTags = TagsModel.fromJson(jsonResponse);
-    // print(ta);
+
     print('Name added successfully');
 
     return true;
