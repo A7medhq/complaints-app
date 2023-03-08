@@ -34,13 +34,13 @@ class CategoryCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CircleAvatar(
-                  radius: 9,
+                  radius: 6,
                   backgroundColor: tagColor,
                 ),
                 Text(
                   '$messagesCount',
                   style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 17),
+                      fontWeight: FontWeight.bold, fontSize: 16),
                 )
               ],
             ),
@@ -49,7 +49,7 @@ class CategoryCard extends StatelessWidget {
               style: TextStyle(
                   color: Colors.grey.shade400,
                   fontWeight: FontWeight.bold,
-                  fontSize: 16),
+                  fontSize: 14),
             )
           ],
         ));
