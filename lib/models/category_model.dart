@@ -1,9 +1,9 @@
-class CategoriesModel {
+class CategoryModel {
   List<Categories>? categories;
 
-  CategoriesModel({this.categories});
+  CategoryModel({this.categories});
 
-  CategoriesModel.fromJson(Map<String, dynamic> json) {
+  CategoryModel.fromJson(Map<String, dynamic> json) {
     if (json['categories'] != null) {
       categories = <Categories>[];
       json['categories'].forEach((v) {
@@ -31,11 +31,11 @@ class Categories {
 
   Categories(
       {this.id,
-        this.name,
-        this.createdAt,
-        this.updatedAt,
-        this.sendersCount,
-        this.senders});
+      this.name,
+      this.createdAt,
+      this.updatedAt,
+      this.sendersCount,
+      this.senders});
 
   Categories.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -76,12 +76,12 @@ class Senders {
 
   Senders(
       {this.id,
-        this.name,
-        this.mobile,
-        this.address,
-        this.categoryId,
-        this.createdAt,
-        this.updatedAt});
+      this.name,
+      this.mobile,
+      this.address,
+      this.categoryId,
+      this.createdAt,
+      this.updatedAt});
 
   Senders.fromJson(Map<String, dynamic> json) {
     id = json['id'];
