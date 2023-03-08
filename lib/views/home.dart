@@ -1,3 +1,4 @@
+import 'package:complaints/components/custom_action_chip.dart';
 import 'package:complaints/components/custom_expansion_tile/tile_content.dart';
 import 'package:complaints/models/all_statuses.dart';
 import 'package:complaints/services/get_all_statuses.dart';
@@ -187,32 +188,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class CustomActionChip extends StatelessWidget {
-  final String title;
-  final Function()? onPressed;
-
-  const CustomActionChip({
-    super.key,
-    this.onPressed,
-    required this.title,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ActionChip(
-      onPressed: onPressed,
-      label: Text(
-        title,
-        style: TextStyle(color: Colors.grey.shade700),
-      ),
-      backgroundColor: Colors.grey.shade200,
-      side: BorderSide.none,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
     );
   }
 }

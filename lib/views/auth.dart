@@ -133,24 +133,37 @@ class _AuthScreenState extends State<AuthScreen> {
                             color: const Color(0xff3A98B9),
                             child: InkWell(
                               borderRadius: BorderRadius.circular(24),
-                              onTap: () async {
-                                ResponseModel userInfo = await AuthServices()
-                                    .login(
-                                        password: passwordController.text,
-                                        email: emailController.text);
+                              onTap: switched == 'login'
+                                  ? () async {
+                                      ResponseModel userInfo =
+                                          await AuthServices().login(
+                                              password: passwordController.text,
+                                              email: emailController.text);
 
-                                if (userInfo.data != null && mounted) {
-                                  Navigator.of(context).pushNamedAndRemoveUntil(
-                                      '/', (_) => false);
-                                } else {
-                                  if (mounted) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        const SnackBar(
-                                            content:
-                                                Text('Invalid credentials')));
-                                  }
-                                }
-                              },
+                                      if (userInfo.data != null && mounted) {
+                                        Navigator.of(context)
+                                            .pushNamedAndRemoveUntil(
+                                                '/', (_) => false);
+                                      } else {
+                                        if (mounted) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                                  content: Text(
+                                                      'Invalid credentials')));
+                                        }
+                                      }
+                                    }
+                                  : () async {
+                                      ResponseModel userInfo =
+                                          await AuthServices.register(
+                                        name: 'Ahmed',
+                                        email: emailController.text,
+                                        password: passwordController.text,
+                                        confirmPassword:
+                                            passwordConfirmationController.text,
+                                        context: context,
+                                      );
+                                    },
                               child: SizedBox(
                                 width: 260,
                                 height: 50,

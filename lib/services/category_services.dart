@@ -47,7 +47,7 @@ class CategoryServices {
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(response.body);
       CategoryModel categories = CategoryModel.fromJson(jsonResponse);
-      showSnackBar(context: context);
+      showSnackBar(context: context, message: '');
       return true;
     } else {
       showSnackBar(
