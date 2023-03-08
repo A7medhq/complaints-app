@@ -47,7 +47,7 @@ class CategoryServices {
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(response.body);
       CategoryModel categories = CategoryModel.fromJson(jsonResponse);
-      showSnackBar(context: context, message: '');
+      showSnackBar(context: context, message: 'Category Created Successfully!');
       return true;
     } else {
       showSnackBar(
@@ -86,6 +86,71 @@ class CategoryServices {
           context: context,
           color: Colors.redAccent,
           message: "Failed to fetch an category");
+      return null;
+    }
+  }
+
+  static Future<CategoryModel?> updateCategory(
+      {required int id,
+      required String name,
+      required BuildContext context}) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    String token = '';
+    if (prefs.getString('token') != null) {
+      token = prefs.getString('token')!;
+    }
+
+    var url = Uri.parse("$base_url/categories/$id");
+    var response = await http.put(
+      url,
+      body: {'name': name},
+      headers: {HttpHeaders.authorizationHeader: token},
+    );
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body);
+      CategoryModel category = CategoryModel.fromJson(jsonResponse);
+      showSnackBar(
+          context: context,
+          message:
+              "Updating an category successfully : ${category.categories}");
+      return category;
+    } else {
+      showSnackBar(
+          context: context,
+          color: Colors.redAccent,
+          message: "Failed to update an category");
+      return null;
+    }
+  }
+
+  static Future<CategoryModel?> deleteCategory(
+      {required int id, required BuildContext context}) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    String token = '';
+    if (prefs.getString('token') != null) {
+      token = prefs.getString('token')!;
+    }
+
+    var url = Uri.parse("$base_url/categories/$id");
+    var response = await http.delete(
+      url,
+      headers: {HttpHeaders.authorizationHeader: token},
+    );
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body);
+      CategoryModel category = CategoryModel.fromJson(jsonResponse);
+      showSnackBar(
+          context: context,
+          message:
+              "Deleting an category successfully : ${category.categories}");
+      return category;
+    } else {
+      showSnackBar(
+          context: context,
+          color: Colors.redAccent,
+          message: "Failed to delete an category");
       return null;
     }
   }
