@@ -35,7 +35,7 @@ class User {
   int? _id;
   String? _name;
   String? _email;
- String? _image;
+  String? _image;
   String? _emailVerifiedAt;
   String? _roleId;
   String? _createdAt;
