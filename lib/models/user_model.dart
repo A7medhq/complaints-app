@@ -43,16 +43,15 @@ class User {
   Role? _role;
 
   User(
-
       {int? id,
-        String? name,
-        String? email,
-        String? image,
-        String? emailVerifiedAt,
-        String? roleId,
-        String? createdAt,
-        String? updatedAt,
-        Role? role}) {
+      String? name,
+      String? email,
+      String? image,
+      String? emailVerifiedAt,
+      String? roleId,
+      String? createdAt,
+      String? updatedAt,
+      Role? role}) {
     if (id != null) {
       this._id = id;
     }
