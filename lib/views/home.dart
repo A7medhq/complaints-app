@@ -1,9 +1,12 @@
 import 'package:complaints/components/custom_expansion_tile/tile_content.dart';
+import 'package:complaints/services/get_all_tags_service.dart';
 import 'package:complaints/views/new_inbox.dart';
 import 'package:flutter/material.dart';
 
 import '../components/category_card.dart';
 import '../components/custom_expansion_tile/custom_expansion_tile.dart';
+import '../models/all_tags.dart';
+
 class HomeScreen extends StatefulWidget {
   static const id = '/homeScreen';
 
@@ -14,6 +17,22 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<Tag>? tags;
+
+  void getAllTags() {
+    GetAllTags().getAllTagsInfo().then((value) {
+      tags = value.data.tags;
+      setState(() {});
+      print(tags);
+    });
+  }
+
+  @override
+  void initState() {
+    getAllTags();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: GridView(
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       childAspectRatio: 5 / 3,
@@ -91,73 +110,35 @@ class _HomeScreenState extends State<HomeScreen> {
                 name: 'Others',
                 tilesList: const [TileContent(), TileContent()],
               ),
-              Align(
+              const Align(
                   alignment: Alignment.topLeft,
                   child: Text(
                     'Tags',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                   )),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               Container(
                 width: double.infinity,
-                margin: EdgeInsets.only(bottom: 8),
-                padding: EdgeInsets.all(18),
+                margin: const EdgeInsets.only(bottom: 8),
+                padding: const EdgeInsets.all(18),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(28)),
                 child: Wrap(
                   spacing: 8,
                   children: [
-                    Chip(
-                      label: Text(
-                        'All Tags',
-                        style: TextStyle(color: Colors.grey.shade700),
-                      ),
-                      backgroundColor: Colors.grey.shade200,
-                      side: BorderSide.none,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50)),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    CustomActionChip(
+                      title: 'All Tags',
+                      onPressed: () {},
                     ),
-                    Chip(
-                      label: Text(
-                        '#Working',
-                        style: TextStyle(color: Colors.grey.shade700),
-                      ),
-                      backgroundColor: Colors.grey.shade200,
-                      side: BorderSide.none,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50)),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                    ),
-                    Chip(
-                      label: Text(
-                        '#new',
-                        style: TextStyle(color: Colors.grey.shade700),
-                      ),
-                      backgroundColor: Colors.grey.shade200,
-                      side: BorderSide.none,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50)),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                    ),
-                    Chip(
-                      label: Text(
-                        '#Working',
-                        style: TextStyle(color: Colors.grey.shade700),
-                      ),
-                      backgroundColor: Colors.grey.shade200,
-                      side: BorderSide.none,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50)),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                    ),
+                    if (tags != null)
+                      for (var i = 0; i < tags!.length; i++) ...[
+                        CustomActionChip(
+                          title: tags![i].name,
+                        )
+                      ]
                   ],
                 ),
               )
@@ -167,7 +148,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       bottomNavigationBar: InkWell(
         onTap: () {
-
           showModalBottomSheet(
               clipBehavior: Clip.hardEdge,
               context: context,
@@ -181,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         child: Container(
           height: 60,
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
               color: Colors.white,
               border: Border(top: BorderSide(color: Colors.grey.shade400))),
@@ -202,6 +182,32 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class CustomActionChip extends StatelessWidget {
+  final String title;
+  final Function()? onPressed;
+
+  const CustomActionChip({
+    super.key,
+    this.onPressed,
+    required this.title,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ActionChip(
+      onPressed: onPressed,
+      label: Text(
+        title,
+        style: TextStyle(color: Colors.grey.shade700),
+      ),
+      backgroundColor: Colors.grey.shade200,
+      side: BorderSide.none,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
     );
   }
 }

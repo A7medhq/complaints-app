@@ -2,13 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:complaints/constants.dart';
+import 'package:complaints/models/response_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/all_tags.dart';
 
 class GetAllTags {
-  Future<bool> GetAllTagsInfo() async {
+  Future<ResponseModel> getAllTagsInfo() async {
     final prefs = await SharedPreferences.getInstance();
 
     String token = '';
@@ -23,12 +24,10 @@ class GetAllTags {
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(response.body);
       var getTags = TagsModel.fromJson(jsonResponse);
-      print(getTags.tags[0].name);
 
-      return true;
+      return ResponseModel(data: getTags, message: 'success');
     } else {
-
-      return false;
+      return ResponseModel(message: 'failed');
     }
   }
 }

@@ -35,7 +35,7 @@ class User {
   int? _id;
   String? _name;
   String? _email;
-  Null? _image;
+  String? _image;
   String? _emailVerifiedAt;
   String? _roleId;
   String? _createdAt;
@@ -43,16 +43,15 @@ class User {
   Role? _role;
 
   User(
-
       {int? id,
-        String? name,
-        String? email,
-        Null? image,
-        String? emailVerifiedAt,
-        String? roleId,
-        String? createdAt,
-        String? updatedAt,
-        Role? role}) {
+      String? name,
+      String? email,
+      String? image,
+      String? emailVerifiedAt,
+      String? roleId,
+      String? createdAt,
+      String? updatedAt,
+      Role? role}) {
     if (id != null) {
       this._id = id;
     }
@@ -88,8 +87,8 @@ class User {
   set name(String? name) => _name = name;
   String? get email => _email;
   set email(String? email) => _email = email;
-  Null? get image => _image;
-  set image(Null? image) => _image = image;
+  String? get image => _image;
+  set image(String? image) => _image = image;
   String? get emailVerifiedAt => _emailVerifiedAt;
   set emailVerifiedAt(String? emailVerifiedAt) =>
       _emailVerifiedAt = emailVerifiedAt;

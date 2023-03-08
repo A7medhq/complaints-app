@@ -16,8 +16,10 @@ class AuthServices {
     var url = Uri.parse("$base_url/login");
     var response =
         await http.post(url, body: {'email': email, 'password': password});
+
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(response.body);
+
       var userInfo = UserModel.fromJson(jsonResponse);
 
       // save user token
