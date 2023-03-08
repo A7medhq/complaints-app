@@ -2,14 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:complaints/constants.dart';
+import 'package:complaints/models/response_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/all_statuses.dart';
-import '../models/all_tags.dart';
 
 class GetAllStatus {
-  Future<bool> GetAllStatusInfo() async {
+  Future<ResponseModel> getAllStatusInfo() async {
     final prefs = await SharedPreferences.getInstance();
 
     String token = '';
@@ -24,12 +24,10 @@ class GetAllStatus {
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(response.body);
       var getStatus = StatusModal.fromJson(jsonResponse);
-      print(getStatus.statuses[0].name);
 
-      return true;
+      return ResponseModel(data: getStatus, message: 'success');
     } else {
-
-      return false;
+      return ResponseModel(message: 'failed');
     }
   }
 }
