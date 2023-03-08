@@ -123,4 +123,35 @@ class CategoryServices {
       return null;
     }
   }
+
+  static Future<CategoryModel?> deleteCategory(
+      {required int id, required BuildContext context}) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    String token = '';
+    if (prefs.getString('token') != null) {
+      token = prefs.getString('token')!;
+    }
+
+    var url = Uri.parse("$base_url/categories/$id");
+    var response = await http.delete(
+      url,
+      headers: {HttpHeaders.authorizationHeader: token},
+    );
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body);
+      CategoryModel category = CategoryModel.fromJson(jsonResponse);
+      showSnackBar(
+          context: context,
+          message:
+              "Deleting an category successfully : ${category.categories}");
+      return category;
+    } else {
+      showSnackBar(
+          context: context,
+          color: Colors.redAccent,
+          message: "Failed to delete an category");
+      return null;
+    }
+  }
 }
