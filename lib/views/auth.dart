@@ -176,9 +176,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               IconButton(
-                                  onPressed: () {
-                                    AuthServices.getAllCategories();
-                                  },
+                                  onPressed: () {},
                                   icon: const Icon(Icons.add)),
                               IconButton(
                                   onPressed: () {},
