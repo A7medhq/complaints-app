@@ -28,6 +28,7 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xfffffbf8),
       body: Stack(
         alignment: Alignment.center,
         children: [
@@ -48,11 +49,11 @@ class _AuthScreenState extends State<AuthScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.symmetric(vertical: 36),
-                    child: Text(
-                      'AH',
-                      style: TextStyle(fontSize: 70, color: Colors.white),
+                    child: Image.asset(
+                      'assets/image.png',
+                      width: 200,
                     ),
                   ),
                   Center(
@@ -61,7 +62,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     duration: const Duration(milliseconds: 400),
                     height: switched == 'login' ? 410 : 515,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Color(0xfffcf7ee),
                       borderRadius: BorderRadius.circular(36),
                       boxShadow: const [
                         BoxShadow(
@@ -79,11 +80,11 @@ class _AuthScreenState extends State<AuthScreen> {
                           ToggleButton(
                             width: 250.0,
                             height: 40.0,
-                            toggleBackgroundColor: Colors.white,
+                            toggleBackgroundColor: Color(0xfffcf7ee),
                             toggleBorderColor: (Colors.grey[350])!,
-                            toggleColor: const Color(0xff3A98B9),
-                            activeTextColor: Colors.white,
-                            inactiveTextColor: const Color(0xff3A98B9),
+                            toggleColor: kPrimaryColor,
+                            activeTextColor: Color(0xfffcf7ee),
+                            inactiveTextColor: kPrimaryColor,
                             leftDescription: 'Login',
                             rightDescription: 'Register',
                             onLeftToggleActive: () {
@@ -149,7 +150,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           ),
                           Material(
                             borderRadius: BorderRadius.circular(24),
-                            color: const Color(0xff3A98B9),
+                            color: kPrimaryColor,
                             child: InkWell(
                               borderRadius: BorderRadius.circular(24),
                               onTap: switched == 'login'
