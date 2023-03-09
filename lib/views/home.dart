@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../components/category_card.dart';
 import '../components/custom_expansion_tile/custom_expansion_tile.dart';
+import '../providers/mails_provider.dart';
 
 class HomeScreen extends StatelessWidget {
   static const id = '/homeScreen';
@@ -87,9 +88,25 @@ class HomeScreen extends StatelessWidget {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: categories.length,
-                        itemBuilder: (context, index) => CustomExpansionTile(
-                            name: categories[index].name!,
-                            tilesList: [TileContent()]));
+                        itemBuilder: (context, index) =>
+                            Consumer<MailsProvider>(
+                              builder: (context, value, child) {
+                                final mails = value.allMails;
+                                if (mails != null) {
+                                  return CustomExpansionTile(
+                                      name: categories[index].name!,
+                                      tilesList: [
+                                        for (var i = 0;
+                                            i < mails.length;
+                                            i++) ...[const TileContent()]
+                                      ]);
+                                } else {
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                              },
+                            ));
                   } else {
                     return const Center(child: CircularProgressIndicator());
                   }

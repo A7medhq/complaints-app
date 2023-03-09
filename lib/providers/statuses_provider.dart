@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/all_statuses.dart';
-import '../services/get_all_statuses.dart';
+import '../services/status_services.dart';
 
 class StatusesProvider extends ChangeNotifier {
   bool isLoading = false;

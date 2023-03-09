@@ -1,3 +1,4 @@
+import 'package:complaints/providers/mails_provider.dart';
 import 'package:complaints/services/get_current_user.dart';
 import 'package:complaints/views/auth.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
       Provider.of<TagsProvider>(context, listen: false).getTags();
       Provider.of<StatusesProvider>(context, listen: false).getStatuses();
       Provider.of<CategoriesProvider>(context, listen: false).getCategories();
+      Provider.of<MailsProvider>(context, listen: false).getAllMails();
     });
   }
 
