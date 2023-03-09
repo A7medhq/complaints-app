@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/all_tags.dart';
-import '../services/get_all_tags_service.dart';
+import '../services/tag_services.dart';
 
 class TagsProvider extends ChangeNotifier {
   bool isLoading = false;

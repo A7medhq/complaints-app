@@ -1,4 +1,5 @@
 import 'package:complaints/providers/categories_provider.dart';
+import 'package:complaints/providers/mails_provider.dart';
 import 'package:complaints/providers/statuses_provider.dart';
 import 'package:complaints/providers/tags_provider.dart';
 import 'package:complaints/views/auth.dart';
@@ -11,6 +12,7 @@ import 'package:provider/provider.dart';
 
 void main() {
   runApp(MultiProvider(providers: [
+    ChangeNotifierProvider<MailsProvider>(create: (_) => MailsProvider()),
     ChangeNotifierProvider<TagsProvider>(create: (_) => TagsProvider()),
     ChangeNotifierProvider<StatusesProvider>(create: (_) => StatusesProvider()),
     ChangeNotifierProvider<CategoriesProvider>(
