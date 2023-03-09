@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:complaints/models/response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,7 +11,7 @@ import '../helpers.dart';
 import '../models/category_model.dart';
 
 class CategoryServices {
-  static Future<CategoryModel?> getAllCategories() async {
+  static Future<ResponseModel> getAllCategories() async {
     final prefs = await SharedPreferences.getInstance();
 
     String token = '';
@@ -24,10 +25,9 @@ class CategoryServices {
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(response.body);
       CategoryModel categories = CategoryModel.fromJson(jsonResponse);
-      print("All Categories are : ------ ${categories.categories!.first.id}");
-      return categories;
+      return ResponseModel(data: categories, message: 'success');
     } else {
-      print("There is an error");
+      return ResponseModel(message: 'failed');
     }
   }
 

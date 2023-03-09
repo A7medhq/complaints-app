@@ -1,12 +1,21 @@
+import 'package:complaints/providers/categories_provider.dart';
+import 'package:complaints/providers/statuses_provider.dart';
+import 'package:complaints/providers/tags_provider.dart';
 import 'package:complaints/views/auth.dart';
 import 'package:complaints/views/home.dart';
 import 'package:complaints/views/loading.dart';
 import 'package:complaints/views/main_layout.dart';
 import 'package:complaints/views/message_detailes.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider<TagsProvider>(create: (_) => TagsProvider()),
+    ChangeNotifierProvider<StatusesProvider>(create: (_) => StatusesProvider()),
+    ChangeNotifierProvider<CategoriesProvider>(
+        create: (_) => CategoriesProvider()),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

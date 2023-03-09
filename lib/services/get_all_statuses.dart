@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/all_statuses.dart';
 
 class GetAllStatus {
-  Future<ResponseModel> getAllStatusInfo() async {
+  static Future<ResponseModel> getAllStatuses() async {
     final prefs = await SharedPreferences.getInstance();
 
     String token = '';

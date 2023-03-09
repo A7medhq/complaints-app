@@ -87,7 +87,7 @@ class _MainLayoutState extends State<MainLayout> {
             if (id == 0) {
               currentPage = DrawerSections.home;
             } else if (id == -1) {
-              AuthServices().logout().then((value) {
+              AuthServices.logout().then((value) {
                 if (value) {
                   Navigator.pushReplacementNamed(context, LoadingScreen.id);
                 } else {
