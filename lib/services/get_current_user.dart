@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CurrentUserService {
-  Future<bool> getCurrentUserInfo() async {
+  static Future<bool> getCurrentUserInfo() async {
     final prefs = await SharedPreferences.getInstance();
 
     String token = '';

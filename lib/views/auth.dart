@@ -17,6 +17,7 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   String switched = 'login';
+  TextEditingController nameController = TextEditingController();
   TextEditingController emailController =
       TextEditingController(text: 'o@o.com');
   TextEditingController passwordController =
@@ -43,7 +44,7 @@ class _AuthScreenState extends State<AuthScreen> {
           ),
           //  const BackgroundCurve(),
           Padding(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.only(left: 32.0, top: 32.0, right: 32.0),
             child: SingleChildScrollView(
               child: Column(
                 children: [
@@ -51,13 +52,14 @@ class _AuthScreenState extends State<AuthScreen> {
                     padding: EdgeInsets.symmetric(vertical: 36),
                     child: Text(
                       'AH',
-                      style: TextStyle(fontSize: 80, color: Colors.white),
+                      style: TextStyle(fontSize: 70, color: Colors.white),
                     ),
                   ),
                   Center(
                       child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    height: switched == 'login' ? 470 : 520,
+                    margin: const EdgeInsets.symmetric(vertical: 8.0),
+                    duration: const Duration(milliseconds: 400),
+                    height: switched == 'login' ? 410 : 515,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(36),
@@ -75,8 +77,8 @@ class _AuthScreenState extends State<AuthScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           ToggleButton(
-                            width: 300.0,
-                            height: 45.0,
+                            width: 250.0,
+                            height: 40.0,
                             toggleBackgroundColor: Colors.white,
                             toggleBorderColor: (Colors.grey[350])!,
                             toggleColor: const Color(0xff3A98B9),
@@ -96,13 +98,30 @@ class _AuthScreenState extends State<AuthScreen> {
                             },
                           ),
                           const SizedBox(
-                            height: 24,
+                            height: 12,
+                          ),
+                          AnimatedCrossFade(
+                            duration: const Duration(milliseconds: 400),
+                            reverseDuration: const Duration(milliseconds: 200),
+                            firstChild: Container(),
+                            secondChild: Column(
+                              children: [
+                                AuthTextField(
+                                    hint: 'Name', controller: nameController),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                              ],
+                            ),
+                            crossFadeState: switched == 'login'
+                                ? CrossFadeState.showFirst
+                                : CrossFadeState.showSecond,
                           ),
                           AuthTextField(
                               hint: 'Enter email or username',
                               controller: emailController),
                           const SizedBox(
-                            height: 12,
+                            height: 8,
                           ),
                           AuthTextField(
                               hint: 'Enter password',
@@ -114,7 +133,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             secondChild: Column(
                               children: [
                                 const SizedBox(
-                                  height: 12,
+                                  height: 8,
                                 ),
                                 AuthTextField(
                                     hint: 'Confirm password',
@@ -126,7 +145,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 : CrossFadeState.showSecond,
                           ),
                           const SizedBox(
-                            height: 36,
+                            height: 24,
                           ),
                           Material(
                             borderRadius: BorderRadius.circular(24),
@@ -136,7 +155,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               onTap: switched == 'login'
                                   ? () async {
                                       ResponseModel userInfo =
-                                          await AuthServices().login(
+                                          await AuthServices.login(
                                               password: passwordController.text,
                                               email: emailController.text);
 
@@ -154,9 +173,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                       }
                                     }
                                   : () async {
-                                      ResponseModel userInfo =
-                                          await AuthServices.register(
-                                        name: 'Ahmed',
+                                      AuthServices.register(
+                                        name: nameController.text,
                                         email: emailController.text,
                                         password: passwordController.text,
                                         confirmPassword:
@@ -169,7 +187,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 height: 50,
                                 child: Center(
                                   child: Text(
-                                    switched,
+                                    switched.toUpperCase(),
                                     style: const TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold),
@@ -179,11 +197,11 @@ class _AuthScreenState extends State<AuthScreen> {
                             ),
                           ),
                           const SizedBox(
-                            height: 24,
+                            height: 14,
                           ),
                           const Text('OR'),
                           const SizedBox(
-                            height: 24,
+                            height: 12,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Mails {
-  Future<ResponseModel> createNewMail({
+  static Future<ResponseModel> createNewMail({
     required String subject,
     required String description,
     required String senderId,

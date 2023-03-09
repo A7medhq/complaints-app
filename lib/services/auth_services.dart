@@ -11,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/response_model.dart';
 
 class AuthServices {
-  Future<ResponseModel> login(
+  static Future<ResponseModel> login(
       {required String password, required String email}) async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -36,7 +36,7 @@ class AuthServices {
     }
   }
 
-  Future<bool> logout() async {
+  static Future<bool> logout() async {
     final prefs = await SharedPreferences.getInstance();
 
     String token = '';

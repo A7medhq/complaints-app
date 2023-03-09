@@ -8,8 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/all_tags.dart';
 
-class GetAllTags {
-  Future<ResponseModel> getAllTagsInfo() async {
+class TagsServices {
+  static Future<ResponseModel> getAllTags() async {
     final prefs = await SharedPreferences.getInstance();
 
     String token = '';
@@ -28,6 +28,31 @@ class GetAllTags {
       return ResponseModel(data: getTags, message: 'success');
     } else {
       return ResponseModel(message: 'failed');
+    }
+  }
+
+  Future<bool> createTags(String name) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    String token = '';
+    if (prefs.getString('token') != null) {
+      token = prefs.getString('token')!;
+    }
+
+    var url = Uri.parse("$base_url/tags");
+    var response = await http.get(url, headers: {
+      HttpHeaders.authorizationHeader: token,
+    });
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body);
+      var getTags = TagsModel.fromJson(jsonResponse);
+
+      print('Name added successfully');
+
+      return true;
+    } else {
+      print('Failed to add name');
+      return false;
     }
   }
 }

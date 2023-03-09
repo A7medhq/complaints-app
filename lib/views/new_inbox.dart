@@ -46,8 +46,7 @@ class _NewInboxState extends State<NewInbox> {
         actions: [
           TextButton(
             onPressed: () {
-              Mails()
-                  .createNewMail(
+              Mails.createNewMail(
                       subject: subjectController.text,
                       description: descriptionController.text,
                       senderId: senderIdController.text,
