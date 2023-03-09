@@ -8,9 +8,13 @@ import 'package:complaints/views/loading.dart';
 import 'package:complaints/views/main_layout.dart';
 import 'package:complaints/views/message_detailes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider<MailsProvider>(create: (_) => MailsProvider()),
     ChangeNotifierProvider<TagsProvider>(create: (_) => TagsProvider()),
@@ -18,6 +22,7 @@ void main() {
     ChangeNotifierProvider<CategoriesProvider>(
         create: (_) => CategoriesProvider()),
   ], child: const MyApp()));
+  FlutterNativeSplash.remove();
 }
 
 class MyApp extends StatelessWidget {
