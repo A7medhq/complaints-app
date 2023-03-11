@@ -17,7 +17,7 @@ class GetAllStatus {
       token = prefs.getString('token')!;
     }
 
-    var url = Uri.parse("$base_url/statuses");
+    var url = Uri.parse("$base_url/statuses?mail=true");
     var response = await http.get(url, headers: {
       HttpHeaders.authorizationHeader: token,
     });

@@ -3,6 +3,7 @@ import 'package:complaints/providers/mails_by_tags_provider.dart';
 import 'package:complaints/providers/mails_provider.dart';
 import 'package:complaints/providers/statuses_provider.dart';
 import 'package:complaints/providers/tags_provider.dart';
+import 'package:complaints/views/all_mails_of_status.dart';
 import 'package:complaints/views/all_mails_of_tag.dart';
 import 'package:complaints/views/auth.dart';
 import 'package:complaints/views/filter.dart';
@@ -11,7 +12,6 @@ import 'package:complaints/views/loading.dart';
 import 'package:complaints/views/main_layout.dart';
 import 'package:complaints/views/message_detailes.dart';
 import 'package:complaints/views/search.dart';
-import 'package:complaints/views/tags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
@@ -53,9 +53,11 @@ class MyApp extends StatelessWidget {
         MainLayout.id: (context) => const MainLayout(),
         MessageDetailsScreen.id: (context) => const MessageDetailsScreen(),
         AllMailsOfTagScreen.id: (context) => const AllMailsOfTagScreen(),
-        TagsScreen.id: (context) => const TagsScreen(),
+        // TagsScreen.id: (context) => const TagsScreen(),
         SearchScreen.id: (context) => const SearchScreen(),
         FilterScreen.id: (context) => const FilterScreen(),
+        AllMailsOfStatusScreen.id: (context) =>
+            AllMailsOfStatusScreen(statusId: -1),
       },
     );
   }

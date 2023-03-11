@@ -8,7 +8,8 @@ import '../providers/tags_provider.dart';
 class TagsScreen extends StatefulWidget {
   static const id = '/tags';
 
-  const TagsScreen({Key? key}) : super(key: key);
+  final ScrollController controller;
+  const TagsScreen(this.controller, {Key? key}) : super(key: key);
 
   @override
   State<TagsScreen> createState() => _TagsScreenState();
@@ -61,6 +62,7 @@ class _TagsScreenState extends State<TagsScreen> {
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: SingleChildScrollView(
+          controller: widget.controller,
           child: Column(
             children: [
               Container(

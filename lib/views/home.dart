@@ -5,6 +5,7 @@ import 'package:complaints/providers/mails_by_tags_provider.dart';
 import 'package:complaints/providers/mails_provider.dart';
 import 'package:complaints/providers/statuses_provider.dart';
 import 'package:complaints/providers/tags_provider.dart';
+import 'package:complaints/views/all_mails_of_status.dart';
 import 'package:complaints/views/new_inbox.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -19,6 +20,40 @@ class HomeScreen extends StatelessWidget {
   static const id = '/homeScreen';
 
   const HomeScreen({Key? key}) : super(key: key);
+
+  void _showBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(25))),
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return GestureDetector(
+          onTap: () => Navigator.of(context).pop(),
+          child: Container(
+            color: const Color.fromRGBO(0, 0, 0, 0.001),
+            child: GestureDetector(
+              onTap: () {},
+              child: DraggableScrollableSheet(
+                initialChildSize: 0.94,
+                maxChildSize: 0.94,
+                builder: (_, controller) {
+                  return Container(
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(25)),
+                      ),
+                      child: NewInbox(controller));
+                },
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,11 +114,22 @@ class HomeScreen extends StatelessWidget {
                                   mainAxisSpacing: 16),
                           itemCount: statuses.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return CategoryCard(
-                              categoryName: statuses[index].name,
-                              messagesCount:
-                                  int.parse(statuses[index].mailsCount),
-                              tagColor: Color(int.parse(statuses[index].color)),
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            AllMailsOfStatusScreen(
+                                                statusId: statuses[index].id)));
+                              },
+                              child: CategoryCard(
+                                categoryName: statuses[index].name,
+                                messagesCount:
+                                    int.parse(statuses[index].mailsCount),
+                                tagColor:
+                                    Color(int.parse(statuses[index].color)),
+                              ),
                             );
                           },
                         );
@@ -122,106 +168,108 @@ class HomeScreen extends StatelessWidget {
 
                           if (mailsValue.state == MailsState.Loaded) {
                             final mails = mailsValue.allMails;
-                            filteredMails = mails!
-                                .where((e) =>
-                                    e.sender.category.name ==
-                                    categories[index].name)
-                                .toList();
-                          }
+                            filteredMails = mails!.where((e) {
+                              return e.sender.category.name ==
+                                  categories[index].name;
+                            }).toList();
 
-                          return CustomExpansionTile(
-                              name: categories[index].name!,
-                              count: filteredMails.length.toString(),
-                              child: ListView.separated(
-                                itemCount: filteredMails.length,
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemBuilder: (BuildContext context, int index) {
-                                  return TileContent(
-                                    color: int.parse(
-                                        filteredMails[index].status.color),
-                                    title: filteredMails[index]
-                                        .sender
-                                        .category
-                                        .name,
-                                    date: DateFormat('EEEE, MMMM d, yyyy')
-                                        .format(filteredMails[index].createdAt),
-                                    subject: filteredMails[index].subject,
-                                    description:
-                                        filteredMails[index].description,
-                                    tags: filteredMails[index]
-                                        .tags
-                                        .map((e) => '#${e.name}   ')
-                                        .toList()
-                                        .join()
-                                        .toString(),
-                                    photosList: SizedBox(
-                                      height: 50,
-                                      child: ListView.builder(
-                                          shrinkWrap: true,
-                                          scrollDirection: Axis.horizontal,
-                                          itemCount: filteredMails[index]
-                                              .attachments
-                                              .length,
-                                          itemBuilder: (context,
-                                                  attachmentsIndex) =>
-                                              Row(
-                                                children: [
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      showDialog(
-                                                        context: context,
-                                                        builder: (context) =>
-                                                            AlertDialog(
-                                                          clipBehavior:
-                                                              Clip.hardEdge,
-                                                          shape: RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          20)),
-                                                          contentPadding:
-                                                              EdgeInsets.zero,
-                                                          content: Hero(
-                                                            tag:
-                                                                'image$attachmentsIndex',
-                                                            child:
-                                                                Image.network(
-                                                              'https://palmail.betweenltd.com/storage/${filteredMails[index].attachments.map((e) => e.image).toList()[attachmentsIndex]}',
-                                                              fit: BoxFit.cover,
+                            return CustomExpansionTile(
+                                name: categories[index].name!,
+                                count: filteredMails.length.toString(),
+                                child: ListView.separated(
+                                  itemCount: filteredMails.length,
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return TileContent(
+                                      color: int.parse(
+                                          filteredMails[index].status.color),
+                                      title: filteredMails[index]
+                                          .sender
+                                          .category
+                                          .name,
+                                      date: DateFormat('EEEE, MMMM d, yyyy')
+                                          .format(
+                                              filteredMails[index].createdAt),
+                                      subject: filteredMails[index].subject,
+                                      description:
+                                          filteredMails[index].description,
+                                      tags: filteredMails[index]
+                                          .tags
+                                          .map((e) => '#${e.name}   ')
+                                          .toList()
+                                          .join()
+                                          .toString(),
+                                      photosList: SizedBox(
+                                        height: 50,
+                                        child: ListView.builder(
+                                            shrinkWrap: true,
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: filteredMails[index]
+                                                .attachments
+                                                .length,
+                                            itemBuilder: (context,
+                                                    attachmentsIndex) =>
+                                                Row(
+                                                  children: [
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (context) =>
+                                                              AlertDialog(
+                                                            clipBehavior:
+                                                                Clip.hardEdge,
+                                                            shape: RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            20)),
+                                                            contentPadding:
+                                                                EdgeInsets.zero,
+                                                            content: Hero(
+                                                              tag:
+                                                                  'image$attachmentsIndex',
+                                                              child:
+                                                                  Image.network(
+                                                                'https://palmail.betweenltd.com/storage/${filteredMails[index].attachments.map((e) => e.image).toList()[attachmentsIndex]}',
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              ),
                                                             ),
                                                           ),
-                                                        ),
-                                                      );
-                                                    },
-                                                    child: ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8.0),
-                                                      child: Hero(
-                                                        tag:
-                                                            'image$attachmentsIndex',
-                                                        child: Image.network(
-                                                          'https://palmail.betweenltd.com/storage/${filteredMails[index].attachments.map((e) => e.image).toList()[attachmentsIndex]}',
-                                                          height: 40,
-                                                          width: 40,
-                                                          fit: BoxFit.cover,
+                                                        );
+                                                      },
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                        child: Hero(
+                                                          tag:
+                                                              'image$attachmentsIndex',
+                                                          child: Image.network(
+                                                            'https://palmail.betweenltd.com/storage/${filteredMails[index].attachments.map((e) => e.image).toList()[attachmentsIndex]}',
+                                                            height: 40,
+                                                            width: 40,
+                                                            fit: BoxFit.cover,
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 14,
-                                                  )
-                                                ],
-                                              )),
-                                    ),
-                                  );
-                                },
-                                separatorBuilder: (context, index) => Divider(
-                                  color: Colors.grey,
-                                ),
-                              ));
+                                                    SizedBox(
+                                                      width: 14,
+                                                    )
+                                                  ],
+                                                )),
+                                      ),
+                                    );
+                                  },
+                                  separatorBuilder: (context, index) => Divider(
+                                    color: Colors.grey,
+                                  ),
+                                ));
+                          }
                         });
                   } else {
                     return const Center(child: CircularProgressIndicator());
@@ -286,18 +334,12 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: InkWell(
+      bottomNavigationBar: GestureDetector(
         onTap: () {
-          showModalBottomSheet(
-              clipBehavior: Clip.hardEdge,
-              context: context,
-              isScrollControlled: true,
-              builder: (context) {
-                return const FractionallySizedBox(
-                  heightFactor: 0.92,
-                  child: NewInbox(),
-                );
-              });
+          _showBottomSheet(context);
+        },
+        onVerticalDragStart: (c) {
+          _showBottomSheet(context);
         },
         child: Container(
           height: 60,
