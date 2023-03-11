@@ -1,8 +1,13 @@
+import 'package:complaints/providers/mails_provider.dart';
 import 'package:complaints/services/get_current_user.dart';
 import 'package:complaints/views/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/categories_provider.dart';
+import '../providers/statuses_provider.dart';
+import '../providers/tags_provider.dart';
 import 'main_layout.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -18,7 +23,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   bool? status;
 
   Future<void> getCurrentUser() async {
-    status = await CurrentUserService.getCurrentUserInfo(context);
+    status = await CurrentUserService.getCurrentUserInfo();
     setState(() {});
   }
 
@@ -32,6 +37,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
   Widget build(BuildContext context) {
     if (status != null) {
       if (status!) {
+        Provider.of<TagsProvider>(context, listen: false).getTags();
+        Provider.of<StatusesProvider>(context, listen: false).getStatuses();
+        Provider.of<CategoriesProvider>(context, listen: false).getCategories();
+        Provider.of<MailsProvider>(context, listen: false).getAllMails();
         return const MainLayout();
       } else {
         return const AuthScreen();

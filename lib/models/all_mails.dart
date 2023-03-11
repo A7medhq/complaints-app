@@ -1,90 +1,26 @@
 // To parse this JSON data, do
 //
-//     final mails = mailsFromJson(jsonString);
+//     final allMails = allMailsFromJson(jsonString);
 
 import 'dart:convert';
 
-AllMails mailsFromJson(String str) => AllMails.fromJson(json.decode(str));
+AllMails allMailsFromJson(String str) => AllMails.fromJson(json.decode(str));
 
-String mailsToJson(AllMails data) => json.encode(data.toJson());
+String allMailsToJson(AllMails data) => json.encode(data.toJson());
 
 class AllMails {
   AllMails({
     required this.mails,
   });
 
-  MailsClass mails;
+  List<Mail> mails;
 
   factory AllMails.fromJson(Map<String, dynamic> json) => AllMails(
-        mails: MailsClass.fromJson(json["mails"]),
+        mails: List<Mail>.from(json["mails"].map((x) => Mail.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "mails": mails.toJson(),
-      };
-}
-
-class MailsClass {
-  MailsClass({
-    required this.currentPage,
-    required this.data,
-    required this.firstPageUrl,
-    required this.from,
-    required this.lastPage,
-    required this.lastPageUrl,
-    required this.links,
-    required this.nextPageUrl,
-    required this.path,
-    required this.perPage,
-    this.prevPageUrl,
-    required this.to,
-    required this.total,
-  });
-
-  int currentPage;
-  List<Mail> data;
-  String firstPageUrl;
-  int from;
-  int lastPage;
-  String lastPageUrl;
-  List<Link> links;
-  String nextPageUrl;
-  String path;
-  int perPage;
-  dynamic prevPageUrl;
-  int to;
-  int total;
-
-  factory MailsClass.fromJson(Map<String, dynamic> json) => MailsClass(
-        currentPage: json["current_page"],
-        data: List<Mail>.from(json["data"].map((x) => Mail.fromJson(x))),
-        firstPageUrl: json["first_page_url"],
-        from: json["from"],
-        lastPage: json["last_page"],
-        lastPageUrl: json["last_page_url"],
-        links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
-        nextPageUrl: json["next_page_url"],
-        path: json["path"],
-        perPage: json["per_page"],
-        prevPageUrl: json["prev_page_url"],
-        to: json["to"],
-        total: json["total"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "current_page": currentPage,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-        "first_page_url": firstPageUrl,
-        "from": from,
-        "last_page": lastPage,
-        "last_page_url": lastPageUrl,
-        "links": List<dynamic>.from(links.map((x) => x.toJson())),
-        "next_page_url": nextPageUrl,
-        "path": path,
-        "per_page": perPage,
-        "prev_page_url": prevPageUrl,
-        "to": to,
-        "total": total,
+        "mails": List<dynamic>.from(mails.map((x) => x.toJson())),
       };
 }
 
@@ -122,8 +58,8 @@ class Mail {
   Sender sender;
   Status status;
   List<Category> tags;
-  List<dynamic> attachments;
-  List<Activity> activities;
+  List<Attachment> attachments;
+  List<dynamic> activities;
 
   factory Mail.fromJson(Map<String, dynamic> json) => Mail(
         id: json["id"],
@@ -141,9 +77,9 @@ class Mail {
         status: Status.fromJson(json["status"]),
         tags:
             List<Category>.from(json["tags"].map((x) => Category.fromJson(x))),
-        attachments: List<dynamic>.from(json["attachments"].map((x) => x)),
-        activities: List<Activity>.from(
-            json["activities"].map((x) => Activity.fromJson(x))),
+        attachments: List<Attachment>.from(
+            json["attachments"].map((x) => Attachment.fromJson(x))),
+        activities: List<dynamic>.from(json["activities"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
@@ -161,132 +97,53 @@ class Mail {
         "sender": sender.toJson(),
         "status": status.toJson(),
         "tags": List<dynamic>.from(tags.map((x) => x.toJson())),
-        "attachments": List<dynamic>.from(attachments.map((x) => x)),
-        "activities": List<dynamic>.from(activities.map((x) => x.toJson())),
+        "attachments": List<dynamic>.from(attachments.map((x) => x.toJson())),
+        "activities": List<dynamic>.from(activities.map((x) => x)),
       };
 }
 
-class Activity {
-  Activity({
+class Attachment {
+  Attachment({
     required this.id,
-    required this.body,
-    required this.userId,
+    required this.title,
+    required this.image,
     required this.mailId,
-    this.sendNumber,
-    this.sendDate,
-    this.sendDestination,
     required this.createdAt,
     required this.updatedAt,
-    required this.user,
   });
 
   int id;
-  Body body;
-  String userId;
+  String title;
+  String image;
   String mailId;
-  dynamic sendNumber;
-  dynamic sendDate;
-  dynamic sendDestination;
-  DateTime createdAt;
-  DateTime updatedAt;
-  User user;
-
-  factory Activity.fromJson(Map<String, dynamic> json) => Activity(
-        id: json["id"],
-        body: bodyValues.map[json["body"]]!,
-        userId: json["user_id"],
-        mailId: json["mail_id"],
-        sendNumber: json["send_number"],
-        sendDate: json["send_date"],
-        sendDestination: json["send_destination"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        user: User.fromJson(json["user"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "body": bodyValues.reverse[body],
-        "user_id": userId,
-        "mail_id": mailId,
-        "send_number": sendNumber,
-        "send_date": sendDate,
-        "send_destination": sendDestination,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
-        "user": user.toJson(),
-      };
-}
-
-enum Body { ANY_TEXT, ANY_TEXT2 }
-
-final bodyValues =
-    EnumValues({"any text": Body.ANY_TEXT, "any text2": Body.ANY_TEXT2});
-
-class User {
-  User({
-    required this.id,
-    required this.name,
-    required this.email,
-    this.image,
-    required this.emailVerifiedAt,
-    required this.roleId,
-    required this.createdAt,
-    required this.updatedAt,
-  });
-
-  int id;
-  UserName name;
-  Email email;
-  dynamic image;
-  DateTime emailVerifiedAt;
-  String roleId;
   DateTime createdAt;
   DateTime updatedAt;
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
+  factory Attachment.fromJson(Map<String, dynamic> json) => Attachment(
         id: json["id"],
-        name: userNameValues.map[json["name"]]!,
-        email: emailValues.map[json["email"]]!,
+        title: json["title"],
         image: json["image"],
-        emailVerifiedAt: DateTime.parse(json["email_verified_at"]),
-        roleId: json["role_id"],
+        mailId: json["mail_id"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "name": userNameValues.reverse[name],
-        "email": emailValues.reverse[email],
+        "title": title,
         "image": image,
-        "email_verified_at": emailVerifiedAt.toIso8601String(),
-        "role_id": roleId,
+        "mail_id": mailId,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
       };
 }
-
-enum Email { SCHULIST_JUDAH_EXAMPLE_ORG, KIRSTEN81_EXAMPLE_ORG }
-
-final emailValues = EnumValues({
-  "kirsten81@example.org": Email.KIRSTEN81_EXAMPLE_ORG,
-  "schulist.judah@example.org": Email.SCHULIST_JUDAH_EXAMPLE_ORG
-});
-
-enum UserName { MR_HOBART_BOYLE_IV, MARGIE_HEATHCOTE_MD }
-
-final userNameValues = EnumValues({
-  "Margie Heathcote MD": UserName.MARGIE_HEATHCOTE_MD,
-  "Mr. Hobart Boyle IV": UserName.MR_HOBART_BOYLE_IV
-});
 
 class Sender {
   Sender({
     required this.id,
     required this.name,
     required this.mobile,
-    required this.address,
+    this.address,
     required this.categoryId,
     required this.createdAt,
     required this.updatedAt,
@@ -296,7 +153,7 @@ class Sender {
   int id;
   String name;
   String mobile;
-  String address;
+  String? address;
   String categoryId;
   DateTime createdAt;
   DateTime updatedAt;
@@ -399,40 +256,4 @@ class Status {
         "name": name,
         "color": color,
       };
-}
-
-class Link {
-  Link({
-    this.url,
-    required this.label,
-    required this.active,
-  });
-
-  String? url;
-  String label;
-  bool active;
-
-  factory Link.fromJson(Map<String, dynamic> json) => Link(
-        url: json["url"],
-        label: json["label"],
-        active: json["active"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "url": url,
-        "label": label,
-        "active": active,
-      };
-}
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }

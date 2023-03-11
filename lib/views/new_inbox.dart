@@ -1,9 +1,11 @@
 import 'package:complaints/components/date_picker.dart';
 import 'package:complaints/services/create_message.dart';
-import 'package:complaints/views/category.dart';
+import 'package:complaints/views/statuses.dart';
+import 'package:complaints/views/tags.dart';
 import 'package:flutter/material.dart';
 
 import '../components/rounded_container.dart';
+import 'category.dart';
 
 class NewInbox extends StatefulWidget {
   const NewInbox({Key? key}) : super(key: key);
@@ -13,6 +15,8 @@ class NewInbox extends StatefulWidget {
 }
 
 class _NewInboxState extends State<NewInbox> {
+  List<Tag?> _selectedTags = [];
+
   TextEditingController subjectController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController senderIdController = TextEditingController();
@@ -21,10 +25,10 @@ class _NewInboxState extends State<NewInbox> {
   TextEditingController archiveDateController =
       TextEditingController(text: DateTime.now().toString());
   TextEditingController decisionController = TextEditingController();
-  TextEditingController statusIdController = TextEditingController(text: '1');
   TextEditingController finalDecisionController = TextEditingController();
-  TextEditingController tagsController = TextEditingController();
   TextEditingController activitiesController = TextEditingController();
+  String? categoryId;
+  String? statusId;
 
   @override
   Widget build(BuildContext context) {
@@ -53,9 +57,9 @@ class _NewInboxState extends State<NewInbox> {
                       archiveNumber: archiveNumberController.text,
                       archiveDate: archiveDateController.text,
                       decision: decisionController.text,
-                      statusId: statusIdController.text,
+                      statusId: statusId.toString(),
                       finalDecision: finalDecisionController.text,
-                      tags: tagsController.text,
+                      tags: _selectedTags.map((e) => e!.id).toList().toString(),
                       activities: activitiesController.text)
                   .then((value) {
                 if (value.message == 'success') {
@@ -108,10 +112,14 @@ class _NewInboxState extends State<NewInbox> {
                           isScrollControlled: true,
                           builder: (context) {
                             return const FractionallySizedBox(
-                              heightFactor: 0.92,
+                              heightFactor: 0.90,
                               child: CategoryScreen(),
                             );
-                          });
+                          }).then((value) {
+                        setState(() {
+                          categoryId = value;
+                        });
+                      });
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -187,7 +195,23 @@ class _NewInboxState extends State<NewInbox> {
                 ],
               )),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  showModalBottomSheet(
+                      clipBehavior: Clip.hardEdge,
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (context) {
+                        return const FractionallySizedBox(
+                          heightFactor: 0.90,
+                          child: TagsScreen(),
+                        );
+                      }).then((value) {
+                    setState(() {
+                      _selectedTags = value;
+                      print(_selectedTags);
+                    });
+                  });
+                },
                 child: RoundedContainer(
                     child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -215,7 +239,22 @@ class _NewInboxState extends State<NewInbox> {
                 )),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  showModalBottomSheet(
+                      clipBehavior: Clip.hardEdge,
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (context) {
+                        return const FractionallySizedBox(
+                          heightFactor: 0.90,
+                          child: StatusesScreen(),
+                        );
+                      }).then((value) {
+                    setState(() {
+                      statusId = value;
+                    });
+                  });
+                },
                 child: RoundedContainer(
                     child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
