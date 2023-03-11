@@ -1,6 +1,7 @@
 import 'package:complaints/components/custom_action_chip.dart';
 import 'package:complaints/components/custom_expansion_tile/tile_content.dart';
 import 'package:complaints/providers/categories_provider.dart';
+import 'package:complaints/providers/mails_by_tags_provider.dart';
 import 'package:complaints/providers/mails_provider.dart';
 import 'package:complaints/providers/statuses_provider.dart';
 import 'package:complaints/providers/tags_provider.dart';
@@ -268,6 +269,9 @@ class HomeScreen extends StatelessWidget {
                                 CustomActionChip(
                                   title: tags[i].name,
                                   onPressed: () {
+                                    Provider.of<MailsByTagsProvider>(context,
+                                            listen: false)
+                                        .getTags(tags: [tags[i].id]);
                                     Navigator.of(context)
                                         .pushNamed(AllMailsOfTagScreen.id);
                                   },

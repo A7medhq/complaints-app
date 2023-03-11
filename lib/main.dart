@@ -1,4 +1,5 @@
 import 'package:complaints/providers/categories_provider.dart';
+import 'package:complaints/providers/mails_by_tags_provider.dart';
 import 'package:complaints/providers/mails_provider.dart';
 import 'package:complaints/providers/statuses_provider.dart';
 import 'package:complaints/providers/tags_provider.dart';
@@ -26,6 +27,8 @@ void main() {
         create: (context) => StatusesProvider()),
     ChangeNotifierProvider<CategoriesProvider>(
         create: (context) => CategoriesProvider()),
+    ChangeNotifierProvider<MailsByTagsProvider>(
+        create: (context) => MailsByTagsProvider()),
   ], child: const MyApp()));
   FlutterNativeSplash.remove();
 }
