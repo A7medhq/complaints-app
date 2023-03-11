@@ -2,6 +2,7 @@ import 'package:complaints/components/drawer/custom_drawer_header.dart';
 import 'package:complaints/services/auth_services.dart';
 import 'package:complaints/views/home.dart';
 import 'package:complaints/views/loading.dart';
+import 'package:complaints/views/message_detailes.dart';
 import 'package:flutter/material.dart';
 
 class MainLayout extends StatefulWidget {
@@ -23,6 +24,9 @@ class _MainLayoutState extends State<MainLayout> {
     if (currentPage == DrawerSections.home) {
       body = const HomeScreen();
     }
+    if (currentPage == DrawerSections.test) {
+      body = const MessageDetailsScreen();
+    }
 
     return Scaffold(
         drawer: Drawer(
@@ -38,6 +42,13 @@ class _MainLayoutState extends State<MainLayout> {
                       icon: Icons.home_outlined,
                       selected:
                           currentPage == DrawerSections.home ? true : false,
+                    ),
+                    menuItem(
+                      id: 1,
+                      title: 'Test',
+                      icon: Icons.home_outlined,
+                      selected:
+                          currentPage == DrawerSections.test ? true : false,
                     ),
                     menuItem(
                       id: -1,
@@ -86,6 +97,8 @@ class _MainLayoutState extends State<MainLayout> {
           setState(() {
             if (id == 0) {
               currentPage = DrawerSections.home;
+            } else if (id == 1) {
+              currentPage = DrawerSections.test;
             } else if (id == -1) {
               AuthServices.logout().then((value) {
                 if (value) {
@@ -138,4 +151,4 @@ class CustomDrawerList extends StatelessWidget {
   }
 }
 
-enum DrawerSections { home, logout }
+enum DrawerSections { home, test, logout }

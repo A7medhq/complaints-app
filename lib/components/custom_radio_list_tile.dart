@@ -6,12 +6,14 @@ class MyRadioListTile<T> extends StatelessWidget {
 
   final Widget? title;
   final ValueChanged<T?> onChanged;
+  final Color? color;
 
   const MyRadioListTile({
     required this.value,
     required this.groupValue,
     required this.onChanged,
     this.title,
+    this.color,
   });
 
   @override
@@ -25,8 +27,14 @@ class MyRadioListTile<T> extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            if (color != null)
+              Container(
+                height: 40,
+                width: 40,
+                decoration: BoxDecoration(
+                    color: color, borderRadius: BorderRadius.circular(12)),
+              ),
             if (title != null) title,
-            SizedBox(width: 12),
             _customRadioButton,
           ],
         ),

@@ -3,19 +3,25 @@ import 'package:flutter/material.dart';
 import '../models/all_statuses.dart';
 import '../services/status_services.dart';
 
+enum StatusesState { Initial, Loading, Loaded, Error }
+
 class StatusesProvider extends ChangeNotifier {
-  bool isLoading = false;
+  StatusesState _state = StatusesState.Initial;
+  StatusesState get state => _state;
+
   List<Status>? _statuses;
   List<Status>? get statuses => _statuses;
 
-  void getStatuses() {
-    isLoading = true;
-    notifyListeners();
+  void getStatuses() async {
+    _state = StatusesState.Loading;
 
-    GetAllStatus.getAllStatuses().then((value) {
-      _statuses = value.data.statuses;
-    });
-    isLoading = false;
+    try {
+      final res = await GetAllStatus.getAllStatuses();
+      _statuses = res.data.statuses;
+      _state = StatusesState.Loaded;
+    } catch (e) {
+      _state = StatusesState.Error;
+    }
     notifyListeners();
   }
 }

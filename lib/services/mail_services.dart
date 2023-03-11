@@ -17,7 +17,7 @@ class MailServices {
       token = prefs.getString('token')!;
     }
 
-    var url = Uri.parse("$base_url/mails");
+    var url = Uri.parse("$base_url/search?text=any");
     var response =
         await http.get(url, headers: {HttpHeaders.authorizationHeader: token});
     if (response.statusCode == 200) {

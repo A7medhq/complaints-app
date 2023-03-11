@@ -1,26 +1,27 @@
-import 'package:complaints/components/rounded_container.dart';
-import 'package:complaints/providers/categories_provider.dart';
+import 'package:complaints/providers/statuses_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../components/custom_radio_list_tile.dart';
+import '../components/rounded_container.dart';
 
-class CategoryScreen extends StatefulWidget {
-  const CategoryScreen({Key? key}) : super(key: key);
+class StatusesScreen extends StatefulWidget {
+  static const id = '/statuses';
+
+  const StatusesScreen({Key? key}) : super(key: key);
 
   @override
-  State<CategoryScreen> createState() => _CategoryScreenState();
+  State<StatusesScreen> createState() => _StatusesScreenState();
 }
 
-class _CategoryScreenState extends State<CategoryScreen> {
-  int val = -1;
-
+class _StatusesScreenState extends State<StatusesScreen> {
+  int val = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 80,
-        title: const Text('Category'),
+        title: const Text('Choose Status'),
         centerTitle: true,
         leading: TextButton(
           onPressed: () {
@@ -35,7 +36,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pop(context, val);
+              Navigator.pop(context);
             },
             child: const Center(
                 child: Text(
@@ -48,33 +49,34 @@ class _CategoryScreenState extends State<CategoryScreen> {
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: RoundedContainer(
-          child: Consumer<CategoriesProvider>(
+          child: Consumer<StatusesProvider>(
             builder: (context, value, child) => ListView.separated(
-                itemCount: value.categories!.length,
+                shrinkWrap: true,
+                itemCount: value.statuses!.length,
                 itemBuilder: (context, index) {
-                  if (value.state == CategoriesState.Loading) {
+                  if (value.state == StatusesState.Loading) {
                     return Center(
                       child: CircularProgressIndicator(),
                     );
                   }
-                  if (value.state == CategoriesState.Error) {
+                  if (value.state == StatusesState.Error) {
                     return Center(
                       child: Text('Error'),
                     );
                   }
 
-                  final categories = value.categories;
-                  if (categories != null &&
-                      value.state == CategoriesState.Loaded) {
+                  final statuses = value.statuses;
+                  if (statuses != null && value.state == StatusesState.Loaded) {
                     return MyRadioListTile(
-                      value: categories[index].id,
+                      value: statuses[index].id,
                       groupValue: val,
                       onChanged: (value) {
                         setState(() {
                           val = value!;
                         });
                       },
-                      title: Text(categories[index].name!),
+                      title: Text(statuses[index].name),
+                      color: Color(int.parse(statuses[index].color)),
                     );
                   }
                 },

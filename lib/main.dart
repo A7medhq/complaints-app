@@ -2,11 +2,15 @@ import 'package:complaints/providers/categories_provider.dart';
 import 'package:complaints/providers/mails_provider.dart';
 import 'package:complaints/providers/statuses_provider.dart';
 import 'package:complaints/providers/tags_provider.dart';
+import 'package:complaints/views/all_mails_of_tag.dart';
 import 'package:complaints/views/auth.dart';
+import 'package:complaints/views/filter.dart';
 import 'package:complaints/views/home.dart';
 import 'package:complaints/views/loading.dart';
 import 'package:complaints/views/main_layout.dart';
 import 'package:complaints/views/message_detailes.dart';
+import 'package:complaints/views/search.dart';
+import 'package:complaints/views/tags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
@@ -16,11 +20,12 @@ void main() {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider<MailsProvider>(create: (_) => MailsProvider()),
-    ChangeNotifierProvider<TagsProvider>(create: (_) => TagsProvider()),
-    ChangeNotifierProvider<StatusesProvider>(create: (_) => StatusesProvider()),
+    ChangeNotifierProvider<TagsProvider>(create: (context) => TagsProvider()),
+    ChangeNotifierProvider<MailsProvider>(create: (context) => MailsProvider()),
+    ChangeNotifierProvider<StatusesProvider>(
+        create: (context) => StatusesProvider()),
     ChangeNotifierProvider<CategoriesProvider>(
-        create: (_) => CategoriesProvider()),
+        create: (context) => CategoriesProvider()),
   ], child: const MyApp()));
   FlutterNativeSplash.remove();
 }
@@ -44,6 +49,10 @@ class MyApp extends StatelessWidget {
         AuthScreen.id: (context) => const AuthScreen(),
         MainLayout.id: (context) => const MainLayout(),
         MessageDetailsScreen.id: (context) => const MessageDetailsScreen(),
+        AllMailsOfTagScreen.id: (context) => const AllMailsOfTagScreen(),
+        TagsScreen.id: (context) => const TagsScreen(),
+        SearchScreen.id: (context) => const SearchScreen(),
+        FilterScreen.id: (context) => const FilterScreen(),
       },
     );
   }

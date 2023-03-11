@@ -1,10 +1,11 @@
-import 'package:complaints/components/custom_expansion_tile/tile_content.dart';
 import 'package:flutter/material.dart';
 
 class CustomExpansionTile extends StatefulWidget {
-  List<TileContent> tilesList;
   String name;
-  CustomExpansionTile({Key? key, required this.name, required this.tilesList})
+  Widget child;
+  String count;
+  CustomExpansionTile(
+      {Key? key, required this.name, required this.child, required this.count})
       : super(key: key);
 
   @override
@@ -32,7 +33,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              widget.tilesList.length.toString(),
+              widget.count,
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
@@ -52,19 +53,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(26),
               ),
-              child: ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) => GestureDetector(
-                      onTap: () {
-                        Navigator.of(context)
-                            .pushNamed('/messageDetailsScreen');
-                      },
-                      child: widget.tilesList[index]),
-                  separatorBuilder: (context, index) => const Divider(
-                        color: Colors.grey,
-                      ),
-                  itemCount: widget.tilesList.length))
+              child: widget.child)
         ],
         onExpansionChanged: (bool expanded) {
           setState(() => _customTileExpanded = expanded);
