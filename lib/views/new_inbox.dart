@@ -251,7 +251,7 @@ class _NewInboxState extends State<NewInbox> {
                         );
                       }).then((value) {
                     setState(() {
-                      statusId = value;
+                      statusId = value.toString();
                     });
                   });
                 },
