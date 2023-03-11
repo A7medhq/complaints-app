@@ -15,7 +15,7 @@ class StatusesScreen extends StatefulWidget {
 }
 
 class _StatusesScreenState extends State<StatusesScreen> {
-  int val = 0;
+  int val = 2;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +36,7 @@ class _StatusesScreenState extends State<StatusesScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pop(context, val);
             },
             child: const Center(
                 child: Text(
