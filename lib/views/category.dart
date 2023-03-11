@@ -6,7 +6,8 @@ import 'package:provider/provider.dart';
 import '../components/custom_radio_list_tile.dart';
 
 class CategoryScreen extends StatefulWidget {
-  const CategoryScreen({Key? key}) : super(key: key);
+  final ScrollController controller;
+  const CategoryScreen(this.controller, {Key? key}) : super(key: key);
 
   @override
   State<CategoryScreen> createState() => _CategoryScreenState();
@@ -50,6 +51,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         child: RoundedContainer(
           child: Consumer<CategoriesProvider>(
             builder: (context, value, child) => ListView.separated(
+                controller: widget.controller,
                 itemCount: value.categories!.length,
                 itemBuilder: (context, index) {
                   if (value.state == CategoriesState.Loading) {

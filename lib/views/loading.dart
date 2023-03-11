@@ -37,10 +37,11 @@ class _LoadingScreenState extends State<LoadingScreen> {
   Widget build(BuildContext context) {
     if (status != null) {
       if (status!) {
+        Provider.of<MailsProvider>(context, listen: false).getAllMails();
+
         Provider.of<TagsProvider>(context, listen: false).getTags();
         Provider.of<StatusesProvider>(context, listen: false).getStatuses();
         Provider.of<CategoriesProvider>(context, listen: false).getCategories();
-        Provider.of<MailsProvider>(context, listen: false).getAllMails();
         return const MainLayout();
       } else {
         return const AuthScreen();
