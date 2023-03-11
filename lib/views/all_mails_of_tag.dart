@@ -1,4 +1,7 @@
+import 'package:complaints/providers/mails_by_tags_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../components/custom_expansion_tile/tile_content.dart';
 import '../components/rounded_container.dart';
@@ -23,22 +26,91 @@ class _AllMailsOfTagScreenState extends State<AllMailsOfTagScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: ListView.builder(
-          itemCount: 10,
-          itemBuilder: (BuildContext context, int index) {
-            return RoundedContainer(
-                child: TileContent(
-              color: 0xff00000,
-              title: 'Organization Name',
-              date: 'Today, 11:00 AM',
-              subject: 'Here we add the subject',
-              description:
-                  'Here we add the subject Here we add the subject Here we add the subject Here we add the subject Here we add the subject',
-              tags: '#Urgent #new',
-              photosList: Container(),
-            ));
-          },
-        ),
+        child: Consumer<MailsByTagsProvider>(builder: (context, value, child) {
+          if (value.state == MailsByTagsState.Loading) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (value.state == MailsByTagsState.Error) {
+            return Text('error occurd');
+          }
+
+          final mails = value.mails;
+          if (mails != null && value.state == MailsByTagsState.Loaded) {
+            return ListView.builder(
+              itemCount: mails.length,
+              itemBuilder: (BuildContext context, int index) {
+                return RoundedContainer(
+                    child: TileContent(
+                  color: int.parse(mails[index].status.color),
+                  title: mails[index].sender.name,
+                  date:
+                      DateFormat('EEEE, HH:MM').format(mails[index].createdAt),
+                  subject: mails[index].subject,
+                  description: mails[index].description,
+                  tags: mails[index]
+                      .tags
+                      .map((e) => '#${e.name}   ')
+                      .toList()
+                      .join()
+                      .toString(),
+                  photosList: SizedBox(
+                    height: 50,
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: mails[index].attachments.length,
+                        itemBuilder: (context, attachmentsIndex) => Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        clipBehavior: Clip.hardEdge,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        contentPadding: EdgeInsets.zero,
+                                        content: Hero(
+                                          tag: 'image$attachmentsIndex',
+                                          child: Image.network(
+                                            'https://palmail.betweenltd.com/storage/${mails[index].attachments.map((e) => e.image).toList()[attachmentsIndex]}',
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: Hero(
+                                      tag: 'image$attachmentsIndex',
+                                      child: Image.network(
+                                        'https://palmail.betweenltd.com/storage/${mails[index].attachments.map((e) => e.image).toList()[attachmentsIndex]}',
+                                        height: 40,
+                                        width: 40,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 14,
+                                )
+                              ],
+                            )),
+                  ),
+                ));
+              },
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        }),
       ),
     );
   }
