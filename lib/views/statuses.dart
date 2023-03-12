@@ -54,6 +54,7 @@ class _StatusesScreenState extends State<StatusesScreen> {
             Padding(
               padding: const EdgeInsets.all(24.0),
               child: RoundedContainer(
+                mail: null,
                 child: Consumer<StatusesProvider>(
                   builder: (context, value, child) => ListView.separated(
                       controller: widget.controller,

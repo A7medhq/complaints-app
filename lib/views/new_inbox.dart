@@ -211,133 +211,137 @@ class _NewInboxState extends State<NewInbox> {
           child: Column(
             children: [
               RoundedContainer(
+                  mail: null,
                   child: Column(
-                children: [
-                  TextField(
-                    controller: senderIdController,
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.person_outline_rounded),
-                      suffixIcon: const Icon(
-                        Icons.info_outline_rounded,
-                        color: Colors.blue,
-                      ),
-                      hintStyle: TextStyle(color: Colors.grey.shade400),
-                      hintText: 'Sender',
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                    ),
-                  ),
-                  const Divider(),
-                  GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onTap: () {
-                      _showCategoryBottomSheet(context).then((value) {
-                        setState(() {
-                          categoryId = value;
-                        });
-                      });
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Category',
-                          style: TextStyle(fontSize: 18),
+                    children: [
+                      TextField(
+                        controller: senderIdController,
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.person_outline_rounded),
+                          suffixIcon: const Icon(
+                            Icons.info_outline_rounded,
+                            color: Colors.blue,
+                          ),
+                          hintStyle: TextStyle(color: Colors.grey.shade400),
+                          hintText: 'Sender',
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
                         ),
-                        Row(
+                      ),
+                      const Divider(),
+                      GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () {
+                          _showCategoryBottomSheet(context).then((value) {
+                            setState(() {
+                              categoryId = value;
+                            });
+                          });
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('other'),
-                            const SizedBox(
-                              width: 6,
+                            const Text(
+                              'Category',
+                              style: TextStyle(fontSize: 18),
                             ),
-                            Icon(
-                              Icons.keyboard_arrow_right,
-                              color: Colors.grey.shade600,
+                            Row(
+                              children: [
+                                const Text('other'),
+                                const SizedBox(
+                                  width: 6,
+                                ),
+                                Icon(
+                                  Icons.keyboard_arrow_right,
+                                  color: Colors.grey.shade600,
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
-                    ),
-                  )
-                ],
-              )),
-              RoundedContainer(
-                  child: Column(
-                children: [
-                  TextField(
-                    controller: subjectController,
-                    decoration: InputDecoration(
-                      hintStyle:
-                          TextStyle(fontSize: 22, color: Colors.grey.shade400),
-                      hintText: 'Title of mail',
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                    ),
-                  ),
-                  const Divider(),
-                  TextField(
-                    controller: descriptionController,
-                    decoration: InputDecoration(
-                      hintStyle:
-                          TextStyle(fontSize: 14, color: Colors.grey.shade400),
-                      hintText: 'Description',
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                    ),
-                  )
-                ],
-              )),
-              RoundedContainer(
-                  child: Column(
-                children: [
-                  Theme(
-                    data:
-                        ThemeData().copyWith(dividerColor: Colors.transparent),
-                    child: ExpansionTile(
-                      tilePadding: const EdgeInsets.symmetric(vertical: 0),
-                      trailing: SizedBox.shrink(),
-                      leading: Icon(
-                        Icons.calendar_today_outlined,
-                        color: Colors.red,
-                      ),
-                      title: Text('Date'),
-                      subtitle: Text(
-                        DateFormat('EEEE, MMMM d, yyyy').format(archiveDate),
-                        style: TextStyle(color: Colors.blue),
-                      ),
-                      children: [
-                        CalendarDatePicker(
-                          initialDate: archiveDate,
-                          firstDate: DateTime(2020),
-                          lastDate: DateTime(2025),
-                          onDateChanged: (DateTime value) {
-                            archiveDate = value;
-                            setState(() {});
-                            print(archiveDate);
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Divider(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      const Icon(Icons.folder_zip_outlined),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text('Archive Number'),
-                          const Text('2022/1565'),
-                        ],
                       )
                     ],
-                  ),
-                ],
-              )),
+                  )),
+              RoundedContainer(
+                  mail: null,
+                  child: Column(
+                    children: [
+                      TextField(
+                        controller: subjectController,
+                        decoration: InputDecoration(
+                          hintStyle: TextStyle(
+                              fontSize: 22, color: Colors.grey.shade400),
+                          hintText: 'Title of mail',
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                        ),
+                      ),
+                      const Divider(),
+                      TextField(
+                        controller: descriptionController,
+                        decoration: InputDecoration(
+                          hintStyle: TextStyle(
+                              fontSize: 14, color: Colors.grey.shade400),
+                          hintText: 'Description',
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                        ),
+                      )
+                    ],
+                  )),
+              RoundedContainer(
+                  mail: null,
+                  child: Column(
+                    children: [
+                      Theme(
+                        data: ThemeData()
+                            .copyWith(dividerColor: Colors.transparent),
+                        child: ExpansionTile(
+                          tilePadding: const EdgeInsets.symmetric(vertical: 0),
+                          trailing: SizedBox.shrink(),
+                          leading: Icon(
+                            Icons.calendar_today_outlined,
+                            color: Colors.red,
+                          ),
+                          title: Text('Date'),
+                          subtitle: Text(
+                            DateFormat('EEEE, MMMM d, yyyy')
+                                .format(archiveDate),
+                            style: TextStyle(color: Colors.blue),
+                          ),
+                          children: [
+                            CalendarDatePicker(
+                              initialDate: archiveDate,
+                              firstDate: DateTime(2020),
+                              lastDate: DateTime(2025),
+                              onDateChanged: (DateTime value) {
+                                archiveDate = value;
+                                setState(() {});
+                                print(archiveDate);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Divider(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          const Icon(Icons.folder_zip_outlined),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('Archive Number'),
+                              const Text('2022/1565'),
+                            ],
+                          )
+                        ],
+                      ),
+                    ],
+                  )),
               GestureDetector(
                 onTap: () {
                   _showTagBottomSheet(context).then((value) {
@@ -349,95 +353,98 @@ class _NewInboxState extends State<NewInbox> {
                   });
                 },
                 child: RoundedContainer(
+                    mail: null,
                     child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.tag,
+                              color: Colors.grey.shade600,
+                            ),
+                            const SizedBox(
+                              width: 12,
+                            ),
+                            _selectedTags.isEmpty
+                                ? Text('Select Tags')
+                                : SizedBox(
+                                    width: 200,
+                                    child: Consumer<TagsProvider>(
+                                      builder: (context, value, child) {
+                                        if (value.state == TagsState.Loading) {
+                                          return Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        }
+                                        if (value.state == TagsState.Error) {
+                                          return Center(
+                                            child: Text('Error'),
+                                          );
+                                        }
+                                        final tags = value.tags;
+                                        if (value.state == TagsState.Loaded &&
+                                            tags != null) {
+                                          dynamic result = [];
+
+                                          for (var selItem in _selectedTags) {
+                                            final filtered = tags
+                                                .where((tag) =>
+                                                    tag.id == selItem!.id)
+                                                .toList();
+                                            if (filtered.isEmpty) {
+                                              result.add(selItem);
+                                            } else {
+                                              result.addAll(filtered);
+                                            }
+                                          }
+
+                                          return SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: Row(
+                                              children: [
+                                                for (var tag in result) ...[
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 8.0),
+                                                    child: Chip(
+                                                      label: Text(
+                                                        '#${tag!.name}',
+                                                        style: TextStyle(
+                                                            color: Colors
+                                                                .grey.shade800),
+                                                      ),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30)),
+                                                      backgroundColor:
+                                                          Colors.grey.shade300,
+                                                      side: BorderSide.none,
+                                                    ),
+                                                  )
+                                                ]
+                                              ],
+                                            ),
+                                          );
+                                        } else {
+                                          return Text(
+                                              'error fetching selected tags');
+                                        }
+                                      },
+                                    ),
+                                  )
+                          ],
+                        ),
                         Icon(
-                          Icons.tag,
+                          Icons.keyboard_arrow_right,
                           color: Colors.grey.shade600,
                         ),
-                        const SizedBox(
-                          width: 12,
-                        ),
-                        _selectedTags.isEmpty
-                            ? Text('Select Tags')
-                            : SizedBox(
-                                width: 200,
-                                child: Consumer<TagsProvider>(
-                                  builder: (context, value, child) {
-                                    if (value.state == TagsState.Loading) {
-                                      return Center(
-                                        child: CircularProgressIndicator(),
-                                      );
-                                    }
-                                    if (value.state == TagsState.Error) {
-                                      return Center(
-                                        child: Text('Error'),
-                                      );
-                                    }
-                                    final tags = value.tags;
-                                    if (value.state == TagsState.Loaded &&
-                                        tags != null) {
-                                      dynamic result = [];
-
-                                      for (var selItem in _selectedTags) {
-                                        final filtered = tags
-                                            .where(
-                                                (tag) => tag.id == selItem!.id)
-                                            .toList();
-                                        if (filtered.isEmpty) {
-                                          result.add(selItem);
-                                        } else {
-                                          result.addAll(filtered);
-                                        }
-                                      }
-
-                                      return SingleChildScrollView(
-                                        scrollDirection: Axis.horizontal,
-                                        child: Row(
-                                          children: [
-                                            for (var tag in result) ...[
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 8.0),
-                                                child: Chip(
-                                                  label: Text(
-                                                    '#${tag!.name}',
-                                                    style: TextStyle(
-                                                        color: Colors
-                                                            .grey.shade800),
-                                                  ),
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              30)),
-                                                  backgroundColor:
-                                                      Colors.grey.shade300,
-                                                  side: BorderSide.none,
-                                                ),
-                                              )
-                                            ]
-                                          ],
-                                        ),
-                                      );
-                                    } else {
-                                      return Text(
-                                          'error fetching selected tags');
-                                    }
-                                  },
-                                ),
-                              )
                       ],
-                    ),
-                    Icon(
-                      Icons.keyboard_arrow_right,
-                      color: Colors.grey.shade600,
-                    ),
-                  ],
-                )),
+                    )),
               ),
               GestureDetector(
                 onTap: () {
@@ -450,94 +457,99 @@ class _NewInboxState extends State<NewInbox> {
                   });
                 },
                 child: RoundedContainer(
+                    mail: null,
                     child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.new_label_outlined,
+                              color: Colors.grey.shade600,
+                            ),
+                            const SizedBox(
+                              width: 12,
+                            ),
+                            statusId == null
+                                ? Text('Select a status')
+                                : Consumer<StatusesProvider>(
+                                    builder: (context, value, child) {
+                                    if (value.state == StatusesState.Loading) {
+                                      return Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    }
+                                    if (value.state == StatusesState.Error) {
+                                      return Center(
+                                        child: Text('Error'),
+                                      );
+                                    }
+                                    final statuses = value.statuses;
+                                    if (value.state == StatusesState.Loaded &&
+                                        statuses != null) {
+                                      Status? status;
+
+                                      if (statusId != null) {
+                                        status = statuses
+                                            .where((element) =>
+                                                element.id ==
+                                                int.parse(statusId!))
+                                            .first;
+                                      }
+
+                                      return Chip(
+                                        label: Text(
+                                          status!.name,
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        backgroundColor:
+                                            Color(int.parse(status.color)),
+                                        side: BorderSide.none,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(50)),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 5, horizontal: 10),
+                                      );
+                                    } else {
+                                      return Text(
+                                          'error fetching selected tags');
+                                    }
+                                  })
+                          ],
+                        ),
                         Icon(
-                          Icons.new_label_outlined,
+                          Icons.keyboard_arrow_right,
                           color: Colors.grey.shade600,
                         ),
-                        const SizedBox(
-                          width: 12,
-                        ),
-                        statusId == null
-                            ? Text('Select a status')
-                            : Consumer<StatusesProvider>(
-                                builder: (context, value, child) {
-                                if (value.state == StatusesState.Loading) {
-                                  return Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                }
-                                if (value.state == StatusesState.Error) {
-                                  return Center(
-                                    child: Text('Error'),
-                                  );
-                                }
-                                final statuses = value.statuses;
-                                if (value.state == StatusesState.Loaded &&
-                                    statuses != null) {
-                                  Status? status;
-
-                                  if (statusId != null) {
-                                    status = statuses
-                                        .where((element) =>
-                                            element.id == int.parse(statusId!))
-                                        .first;
-                                  }
-
-                                  return Chip(
-                                    label: Text(
-                                      status!.name,
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    backgroundColor:
-                                        Color(int.parse(status.color)),
-                                    side: BorderSide.none,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(50)),
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 10),
-                                  );
-                                } else {
-                                  return Text('error fetching selected tags');
-                                }
-                              })
                       ],
-                    ),
-                    Icon(
-                      Icons.keyboard_arrow_right,
-                      color: Colors.grey.shade600,
-                    ),
-                  ],
-                )),
+                    )),
               ),
               RoundedContainer(
+                  mail: null,
                   child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Decision',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  TextField(
-                    controller: decisionController,
-                    decoration: InputDecoration(
-                      hintStyle:
-                          TextStyle(fontSize: 14, color: Colors.grey.shade400),
-                      hintText: 'Add Decision...',
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                    ),
-                  )
-                ],
-              )),
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Decision',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      TextField(
+                        controller: decisionController,
+                        decoration: InputDecoration(
+                          hintStyle: TextStyle(
+                              fontSize: 14, color: Colors.grey.shade400),
+                          hintText: 'Add Decision...',
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                        ),
+                      )
+                    ],
+                  )),
               if (images != null) ...[
                 if (images!.isNotEmpty) ...[
                   RoundedContainer(
+                      mail: null,
                       child: Padding(
                           padding: EdgeInsets.all(4.0),
                           child: Row(
@@ -632,13 +644,14 @@ class _NewInboxState extends State<NewInbox> {
                   pickImage().then((value) => setState(() {}));
                 },
                 child: RoundedContainer(
+                    mail: null,
                     child: const Padding(
-                  padding: EdgeInsets.all(4.0),
-                  child: Text(
-                    'Add Image',
-                    style: TextStyle(fontSize: 18, color: Colors.blue),
-                  ),
-                )),
+                      padding: EdgeInsets.all(4.0),
+                      child: Text(
+                        'Add Image',
+                        style: TextStyle(fontSize: 18, color: Colors.blue),
+                      ),
+                    )),
               ),
             ],
           ),
