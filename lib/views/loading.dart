@@ -38,7 +38,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
     if (status != null) {
       if (status!) {
         Provider.of<MailsProvider>(context, listen: false).getAllMails();
-
         Provider.of<TagsProvider>(context, listen: false).getTags();
         Provider.of<StatusesProvider>(context, listen: false).getStatuses();
         Provider.of<CategoriesProvider>(context, listen: false).getCategories();

@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
               elevation: 0, backgroundColor: Color(0xfff7f6ff))),
       routes: {
         LoadingScreen.id: (context) => const LoadingScreen(),
-        HomeScreen.id: (context) => const HomeScreen(),
+        HomeScreen.id: (context) => HomeScreen(),
         AuthScreen.id: (context) => const AuthScreen(),
         MainLayout.id: (context) => const MainLayout(),
         MessageDetailsScreen.id: (context) => const MessageDetailsScreen(),
