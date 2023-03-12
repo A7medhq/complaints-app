@@ -2,6 +2,7 @@ import 'package:complaints/providers/mails_by_tags_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../components/custom_expansion_tile/tile_content.dart';
 import '../components/rounded_container.dart';
@@ -16,6 +17,47 @@ class AllMailsOfTagScreen extends StatefulWidget {
 }
 
 class _AllMailsOfTagScreenState extends State<AllMailsOfTagScreen> {
+  Shimmer categoriesShimmer() {
+    return Shimmer.fromColors(
+        baseColor: Colors.grey.shade300,
+        highlightColor: Colors.grey.shade100,
+        child: ListView.builder(
+          itemCount: 10,
+          itemBuilder: (BuildContext context, int index) {
+            return RoundedContainer(
+                child: TileContent(
+              color: 0xffff,
+              title: 'mails[index].sender.name',
+              date: '',
+              subject: '',
+              description: 'mails[index].description',
+              tags: '',
+              photosList: SizedBox(
+                height: 50,
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 4,
+                    itemBuilder: (context, attachmentsIndex) => Row(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 14,
+                            )
+                          ],
+                        )),
+              ),
+            ));
+          },
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,12 +70,10 @@ class _AllMailsOfTagScreenState extends State<AllMailsOfTagScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Consumer<MailsByTagsProvider>(builder: (context, value, child) {
           if (value.state == MailsByTagsState.Loading) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            return categoriesShimmer();
           }
           if (value.state == MailsByTagsState.Error) {
-            return Text('error occurd');
+            return categoriesShimmer();
           }
 
           final mails = value.mails;
@@ -106,9 +146,7 @@ class _AllMailsOfTagScreenState extends State<AllMailsOfTagScreen> {
               },
             );
           } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            return categoriesShimmer();
           }
         }),
       ),

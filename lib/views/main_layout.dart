@@ -22,7 +22,7 @@ class _MainLayoutState extends State<MainLayout> {
     Widget? body;
 
     if (currentPage == DrawerSections.home) {
-      body = const HomeScreen();
+      body = HomeScreen();
     }
     if (currentPage == DrawerSections.test) {
       body = const MessageDetailsScreen();

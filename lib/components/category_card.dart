@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class CategoryCard extends StatelessWidget {
+class StatusCard extends StatelessWidget {
   Color tagColor;
   String categoryName;
   int messagesCount;
 
-  CategoryCard({
+  StatusCard({
     super.key,
     required this.tagColor,
     required this.categoryName,
@@ -40,7 +40,7 @@ class CategoryCard extends StatelessWidget {
                 Text(
                   '$messagesCount',
                   style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 16),
+                      fontWeight: FontWeight.bold, fontSize: 14),
                 )
               ],
             ),
