@@ -49,6 +49,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: RoundedContainer(
+          mail: null,
           child: Consumer<CategoriesProvider>(
             builder: (context, value, child) => ListView.separated(
                 controller: widget.controller,

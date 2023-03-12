@@ -10,7 +10,6 @@ import 'package:complaints/views/filter.dart';
 import 'package:complaints/views/home.dart';
 import 'package:complaints/views/loading.dart';
 import 'package:complaints/views/main_layout.dart';
-import 'package:complaints/views/message_detailes.dart';
 import 'package:complaints/views/search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -51,7 +50,7 @@ class MyApp extends StatelessWidget {
         HomeScreen.id: (context) => HomeScreen(),
         AuthScreen.id: (context) => const AuthScreen(),
         MainLayout.id: (context) => const MainLayout(),
-        MessageDetailsScreen.id: (context) => const MessageDetailsScreen(),
+        //  MessageDetailsScreen.id: (context) => const MessageDetailsScreen(),
         AllMailsOfTagScreen.id: (context) => const AllMailsOfTagScreen(),
         // TagsScreen.id: (context) => const TagsScreen(),
         SearchScreen.id: (context) => const SearchScreen(),

@@ -55,101 +55,108 @@ class _AllMailsOfStatusScreenState extends State<AllMailsOfStatusScreen> {
                   .length,
               itemBuilder: (BuildContext context, int index) {
                 return RoundedContainer(
+                    mail: statuses
+                        .where((element) => element.id == widget.statusId)
+                        .toList()
+                        .first
+                        .mails[index],
                     child: TileContent(
-                  color: int.parse(statuses
-                      .where((element) => element.id == widget.statusId)
-                      .toList()
-                      .first
-                      .color),
-                  title: statuses
-                      .where((element) => element.id == widget.statusId)
-                      .toList()
-                      .first
-                      .mails[index]
-                      .sender
-                      .name,
-                  date: DateFormat('EEEE, HH:MM').format(statuses
-                      .where((element) => element.id == widget.statusId)
-                      .toList()
-                      .first
-                      .mails[index]
-                      .createdAt),
-                  subject: statuses
-                      .where((element) => element.id == widget.statusId)
-                      .toList()
-                      .first
-                      .mails[index]
-                      .subject,
-                  description: statuses
-                      .where((element) => element.id == widget.statusId)
-                      .toList()
-                      .first
-                      .mails[index]
-                      .description,
-                  tags: statuses
-                      .where((element) => element.id == widget.statusId)
-                      .toList()
-                      .first
-                      .mails[index]
-                      .tags
-                      .map((e) => '#${e.name}   ')
-                      .toList()
-                      .join()
-                      .toString(),
-                  photosList: SizedBox(
-                    height: 50,
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: statuses
-                            .where((element) => element.id == widget.statusId)
-                            .toList()
-                            .first
-                            .mails[index]
-                            .attachments
-                            .length,
-                        itemBuilder: (context, attachmentsIndex) => Row(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => AlertDialog(
-                                        clipBehavior: Clip.hardEdge,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        contentPadding: EdgeInsets.zero,
-                                        content: Hero(
+                      color: int.parse(statuses
+                          .where((element) => element.id == widget.statusId)
+                          .toList()
+                          .first
+                          .color),
+                      title: statuses
+                          .where((element) => element.id == widget.statusId)
+                          .toList()
+                          .first
+                          .mails[index]
+                          .sender
+                          .name,
+                      date: DateFormat('EEEE, HH:MM').format(statuses
+                          .where((element) => element.id == widget.statusId)
+                          .toList()
+                          .first
+                          .mails[index]
+                          .createdAt),
+                      subject: statuses
+                          .where((element) => element.id == widget.statusId)
+                          .toList()
+                          .first
+                          .mails[index]
+                          .subject,
+                      description: statuses
+                          .where((element) => element.id == widget.statusId)
+                          .toList()
+                          .first
+                          .mails[index]
+                          .description,
+                      tags: statuses
+                          .where((element) => element.id == widget.statusId)
+                          .toList()
+                          .first
+                          .mails[index]
+                          .tags
+                          .map((e) => '#${e.name}   ')
+                          .toList()
+                          .join()
+                          .toString(),
+                      photosList: SizedBox(
+                        height: 50,
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: statuses
+                                .where(
+                                    (element) => element.id == widget.statusId)
+                                .toList()
+                                .first
+                                .mails[index]
+                                .attachments
+                                .length,
+                            itemBuilder: (context, attachmentsIndex) => Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                            clipBehavior: Clip.hardEdge,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            contentPadding: EdgeInsets.zero,
+                                            content: Hero(
+                                              tag: 'image$attachmentsIndex',
+                                              child: Image.network(
+                                                'https://palmail.betweenltd.com/storage/${statuses.where((element) => element.id == widget.statusId).toList().first.mails[index].attachments.map((e) => e.image).toList()[attachmentsIndex]}',
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        child: Hero(
                                           tag: 'image$attachmentsIndex',
                                           child: Image.network(
                                             'https://palmail.betweenltd.com/storage/${statuses.where((element) => element.id == widget.statusId).toList().first.mails[index].attachments.map((e) => e.image).toList()[attachmentsIndex]}',
+                                            height: 40,
+                                            width: 40,
                                             fit: BoxFit.cover,
                                           ),
                                         ),
                                       ),
-                                    );
-                                  },
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child: Hero(
-                                      tag: 'image$attachmentsIndex',
-                                      child: Image.network(
-                                        'https://palmail.betweenltd.com/storage/${statuses.where((element) => element.id == widget.statusId).toList().first.mails[index].attachments.map((e) => e.image).toList()[attachmentsIndex]}',
-                                        height: 40,
-                                        width: 40,
-                                        fit: BoxFit.cover,
-                                      ),
                                     ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 14,
-                                )
-                              ],
-                            )),
-                  ),
-                ));
+                                    SizedBox(
+                                      width: 14,
+                                    )
+                                  ],
+                                )),
+                      ),
+                    ));
               },
             );
           } else {
